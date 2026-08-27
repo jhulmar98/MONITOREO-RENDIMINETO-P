@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Restricciones Médicas</title>
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- =====================================================
+         CSS DEL MÓDULO
+    ====================================================== -->
+    <link
+        rel="stylesheet"
+        href="restriccion.css"
+    >
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+<header class="top-header">
+
+
+    <!-- =====================================================
+         TÍTULO
+    ====================================================== -->
+    <div class="top-header__left">
+
+        <a
+            href="../index.html"
+            class="btn-regresar"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+
+            <span>
+                Regresar
+            </span>
+        </a>
+
+        <div class="titulo-header">
+
+            <h1>
+                Restricciones Médicas
+            </h1>
+
+            <p>
+                Control y monitoreo del personal
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FILTROS
+    ====================================================== -->
+    <div class="top-header__right top-header__right--simple">
+
+
+        <!-- AÑO -->
+        <div class="filtro-fecha filtro-fecha--anio">
+
+            <i class="fa-solid fa-calendar"></i>
+
+            <select id="filtroAnio">
+                <option value="">
+                    TODOS LOS AÑOS
+                </option>
+            </select>
+
+        </div>
+
+
+        <!-- NOMBRE / DNI -->
+        <div class="filtro-fecha filtro-fecha--nombre">
+
+            <i class="fa-solid fa-user"></i>
+
+            <input
+                type="text"
+                id="filtroNombreGeneral"
+                list="listaNombresPersonal"
+                placeholder="NOMBRE O DNI"
+                autocomplete="off"
+            >
+
+            <datalist id="listaNombresPersonal"></datalist>
+
+        </div>
+
+
+        <!-- MES -->
+        <details
+            class="filtro-check"
+            id="boxFiltroMes"
+        >
+
+            <summary>
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <span id="textoFiltroMes">
+                    TODOS LOS MESES
+                </span>
+
+            </summary>
+
+            <div
+                class="filtro-check__panel"
+                id="opcionesFiltroMes"
+            ></div>
+
+        </details>
+
+
+        <!-- CONDICIÓN LABORAL -->
+        <details
+            class="filtro-check filtro-check--wide"
+            id="boxFiltroCondicionLaboral"
+        >
+
+            <summary>
+
+                <i class="fa-solid fa-briefcase"></i>
+
+                <span id="textoFiltroCondicionLaboral">
+                    TODAS LAS CONDICIONES
+                </span>
+
+            </summary>
+
+            <div
+                class="filtro-check__panel"
+                id="opcionesFiltroCondicionLaboral"
+            ></div>
+
+        </details>
+
+
+        <!-- MÉDICO -->
+        <details
+            class="filtro-check filtro-check--wide"
+            id="boxFiltroMedico"
+        >
+
+            <summary>
+
+                <i class="fa-solid fa-user-doctor"></i>
+
+                <span id="textoFiltroMedico">
+                    TODOS LOS MÉDICOS
+                </span>
+
+            </summary>
+
+            <div
+                class="filtro-check__panel"
+                id="opcionesFiltroMedico"
+            ></div>
+
+        </details>
+
+
+        <!-- CARGO ACTUAL -->
+        <details
+            class="filtro-check filtro-check--wide"
+            id="boxFiltroCargo"
+        >
+
+            <summary>
+
+                <i class="fa-solid fa-id-badge"></i>
+
+                <span id="textoFiltroCargo">
+                    TODOS LOS CARGOS
+                </span>
+
+            </summary>
+
+            <div
+                class="filtro-check__panel"
+                id="opcionesFiltroCargo"
+            ></div>
+
+        </details>
+
+
+        <!-- ZONA ACTUAL -->
+        <details
+            class="filtro-check"
+            id="boxFiltroZona"
+        >
+
+            <summary>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span id="textoFiltroZona">
+                    TODAS LAS ZONAS
+                </span>
+
+            </summary>
+
+            <div
+                class="filtro-check__panel"
+                id="opcionesFiltroZona"
+            ></div>
+
+        </details>
+
+
+        <!-- ESTADO -->
+        <details
+            class="filtro-check"
+            id="boxFiltroEstado"
+        >
+
+            <summary>
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <span id="textoFiltroEstado">
+                    TODOS LOS ESTADOS
+                </span>
+
+            </summary>
+
+            <div
+                class="filtro-check__panel"
+                id="opcionesFiltroEstado"
+            ></div>
+
+        </details>
+
+
+        <!-- LIMPIAR -->
+        <button
+            type="button"
+            class="btn-filtro btn-filtro--reset"
+            id="btnLimpiarTodo"
+        >
+
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+
+            <span>
+                Limpiar
+            </span>
+
+        </button>
+
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     CONTENIDO PRINCIPAL
+========================================================= -->
+<main class="dashboard-container">
+
+
+    <!-- =====================================================
+         KPI
+    ====================================================== -->
+    <section class="kpi-grid kpi-grid--restricciones">
+
+
+        <!-- TOTAL -->
+        <article class="kpi-card">
+
+            <div class="kpi-icon">
+
+                <i class="fa-solid fa-users"></i>
+
+            </div>
+
+            <div class="kpi-content">
+
+                <h3>
+                    Personas con restricción
+                </h3>
+
+                <h2 id="kpiTotalPersonas">
+                    0
+                </h2>
+
+            </div>
+
+        </article>
+
+
+        <!-- VIGENTES -->
+        <article class="kpi-card kpi-card--vigente">
+
+            <div class="kpi-icon">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+            <div class="kpi-content">
+
+                <h3>
+                    Vigentes
+                </h3>
+
+                <h2 id="kpiVigentes">
+                    0
+                </h2>
+
+            </div>
+
+        </article>
+
+
+        <!-- POR VENCER -->
+        <article class="kpi-card kpi-card--warning">
+
+            <div class="kpi-icon">
+
+                <i class="fa-solid fa-clock"></i>
+
+            </div>
+
+            <div class="kpi-content">
+
+                <h3>
+                    Por vencer ≤ 7 días
+                </h3>
+
+                <h2 id="kpiPorVencer">
+                    0
+                </h2>
+
+            </div>
+
+        </article>
+
+
+        <!-- VENCIDAS -->
+        <article class="kpi-card kpi-card--danger">
+
+            <div class="kpi-icon">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+            </div>
+
+            <div class="kpi-content">
+
+                <h3>
+                    Vencidas
+                </h3>
+
+                <h2 id="kpiVencidas">
+                    0
+                </h2>
+
+            </div>
+
+        </article>
+
+
+        <!-- INDEFINIDAS -->
+        <article class="kpi-card kpi-card--indefinida">
+
+            <div class="kpi-icon">
+
+                <i class="fa-solid fa-infinity"></i>
+
+            </div>
+
+            <div class="kpi-content">
+
+                <h3>
+                    Indefinidas
+                </h3>
+
+                <h2 id="kpiIndefinidas">
+                    0
+                </h2>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FILA 1
+         RESTRICCIONES POR MES
+         CONDICIÓN LABORAL
+    ====================================================== -->
+    <section class="charts-grid">
+
+
+        <!-- RESTRICCIONES POR MES -->
+        <article class="panel">
+
+            <div class="panel-header panel-header--between">
+
+                <div>
+
+                    <h2>
+                        Restricciones médicas por mes
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Cantidad según fecha de inicio de la restricción
+                    </p>
+
+                </div>
+
+                <div class="mini-filtro">
+
+                    <span>
+                        Año
+                    </span>
+
+                    <strong id="textoAnio">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas
+                    id="graficoRestriccionesPorMes"
+                ></canvas>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- CONDICIÓN LABORAL -->
+        <article class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Restricciones por condición laboral
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Distribución del personal según régimen o condición laboral
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chart-container chart-container--condicion"
+            >
+
+                <div class="condicion-canvas-wrap">
+
+                    <canvas
+                        id="graficoCondicionLaboral"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MÉDICOS CERTIFICADORES
+    ====================================================== -->
+    <section class="charts-grid charts-grid--full">
+
+
+        <article class="panel panel-full panel-medicos">
+
+
+            <div class="panel-header panel-header--between">
+
+
+                <div>
+
+                    <h2>
+                        Restricciones por médico certificador
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Cantidad total de restricciones médicas emitidas por profesional
+                    </p>
+
+                </div>
+
+
+                <div class="panel-actions">
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Total médicos
+                        </span>
+
+                        <strong id="totalMedicosCertificadores">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                class="chart-container chart-container--medicos"
+            >
+
+                <div class="medicos-canvas-wrap">
+
+                    <canvas
+                        id="graficoMedicosCertificadores"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+        </article>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CARGO + ZONA
+    ====================================================== -->
+    <section class="charts-grid">
+
+
+        <!-- CARGO -->
+        <article class="panel panel-cargo">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Restricciones por cargo actual
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Distribución de restricciones según el cargo que desempeña actualmente
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chart-container chart-container--cargo"
+            >
+
+                <div class="cargo-canvas-wrap">
+
+                    <canvas
+                        id="graficoCargoActual"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ZONA -->
+        <article class="panel panel-zonas">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Restricciones por zona actual
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Cantidad de restricciones según ubicación operativa actual
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="chart-container chart-container--zona"
+            >
+
+                <div class="zona-canvas-wrap">
+
+                    <canvas
+                        id="graficoZonaActual"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PERSONAL CON RESTRICCIONES
+    ====================================================== -->
+    <section class="charts-grid charts-grid--full">
+
+
+        <article class="panel panel-full panel-ranking">
+
+
+            <div
+                class="panel-header panel-header--between panel-header--ranking"
+            >
+
+
+                <div>
+
+                    <h2>
+                        Personal con restricciones médicas
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Ranking por cantidad de restricciones registradas por persona
+                    </p>
+
+                </div>
+
+
+                <div class="panel-actions">
+
+
+                    <div class="search-box">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="text"
+                            id="buscarPersonaRestriccion"
+                            placeholder="Buscar persona o DNI..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Personas
+                        </span>
+
+                        <strong id="totalPersonasRanking">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                class="chart-container chart-container--ranking"
+            >
+
+                <div class="ranking-canvas-wrap">
+
+                    <canvas
+                        id="graficoPersonasRestricciones"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+        </article>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ALERTAS DE VENCIMIENTO
+    ====================================================== -->
+    <section class="charts-grid charts-grid--full">
+
+
+        <article
+            class="panel panel-full panel-alertas-restricciones"
+        >
+
+
+            <div class="panel-header panel-header--between">
+
+
+                <div>
+
+                    <h2>
+                        Alertas de vencimiento
+                    </h2>
+
+                    <p class="panel-subtitle">
+                        Seguimiento de restricciones vigentes, próximas a vencer, vencidas e indefinidas
+                    </p>
+
+                </div>
+
+
+                <div class="mini-filtro">
+
+                    <span>
+                        Registros
+                    </span>
+
+                    <strong id="totalAlertasRestricciones">
+                        0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- LEYENDA -->
+            <div class="alerta-leyenda">
+
+
+                <div class="alerta-leyenda__item">
+
+                    <span class="alerta-dot alerta-dot--vigente"></span>
+
+                    Vigente
+
+                </div>
+
+
+                <div class="alerta-leyenda__item">
+
+                    <span class="alerta-dot alerta-dot--por-vencer"></span>
+
+                    ≤ 7 días
+
+                </div>
+
+
+                <div class="alerta-leyenda__item">
+
+                    <span class="alerta-dot alerta-dot--vencida"></span>
+
+                    Vencida
+
+                </div>
+
+
+                <div class="alerta-leyenda__item">
+
+                    <span class="alerta-dot alerta-dot--indefinida"></span>
+
+                    Indefinida
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TABLA -->
+            <div class="tabla-alertas-scroll">
+
+
+                <table class="tabla-alertas-restricciones">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                N°
+                            </th>
+
+                            <th>
+                                DNI
+                            </th>
+
+                            <th>
+                                Personal
+                            </th>
+
+                            <th>
+                                Cargo actual
+                            </th>
+
+                            <th>
+                                Zona actual
+                            </th>
+
+                            <th>
+                                Fecha inicio
+                            </th>
+
+                            <th>
+                                Fecha término
+                            </th>
+
+                            <th>
+                                Días restantes
+                            </th>
+
+                            <th>
+                                Estado
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tablaAlertasRestricciones">
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="empty-cell"
+                            >
+                                Cargando información...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </article>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     MODAL GENERAL DE DETALLE
+========================================================= -->
+<div
+    class="modal-dashboard"
+    id="modalDetalleGeneral"
+>
+
+
+    <div
+        class="modal-dashboard__box modal-dashboard__box--wide"
+    >
+
+
+        <!-- CABECERA MODAL -->
+        <div class="modal-dashboard__header">
+
+
+            <div>
+
+                <h2 id="modalDetalleTitulo">
+                    Detalle de restricciones médicas
+                </h2>
+
+                <p id="modalDetalleSubtitulo">
+                    Relación de registros
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close-btn"
+                id="btnCerrarModalDetalleGeneral"
+                title="Cerrar"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- CUERPO MODAL -->
+        <div class="modal-dashboard__body">
+
+
+            <!-- RESUMEN -->
+            <section class="modal-summary-grid">
+
+
+                <article class="modal-summary-card">
+
+                    <span>
+                        Registros
+                    </span>
+
+                    <strong id="modalResumenRegistros">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="modal-summary-card">
+
+                    <span>
+                        Personas
+                    </span>
+
+                    <strong id="modalResumenPersonas">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="modal-summary-card">
+
+                    <span>
+                        Vigentes
+                    </span>
+
+                    <strong id="modalResumenVigentes">
+                        0
+                    </strong>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- DETALLE -->
+            <section class="modal-detail-section">
+
+
+                <div class="modal-section-header">
+
+                    <h3 id="tituloTablaDetalleGeneral">
+                        Relación de restricciones
+                    </h3>
+
+                    <span id="contadorTablaDetalleGeneral">
+                        0 registros
+                    </span>
+
+                </div>
+
+
+                <div class="table-scroll">
+
+
+                    <table class="detalle-table detalle-table--restricciones">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    N°
+                                </th>
+
+                                <th>
+                                    DNI
+                                </th>
+
+                                <th>
+                                    Personal
+                                </th>
+
+                                <th>
+                                    Condición laboral
+                                </th>
+
+                                <th>
+                                    Cargo actual
+                                </th>
+
+                                <th>
+                                    Zona actual
+                                </th>
+
+                                <th>
+                                    Fecha inicio
+                                </th>
+
+                                <th>
+                                    Fecha término
+                                </th>
+
+                                <th>
+                                    Médico certificador
+                                </th>
+
+                                <th>
+                                    Restricción
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="tablaDetalleGeneral">
+
+                            <tr>
+
+                                <td
+                                    colspan="11"
+                                    class="empty-cell"
+                                >
+                                    Sin registros.
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+<div
+    class="loading-overlay"
+    id="loadingSistema"
+>
+
+
+    <div class="loading-box">
+
+
+        <div class="loading-spinner"></div>
+
+
+        <h3>
+            Cargando restricciones médicas
+        </h3>
+
+
+        <p>
+            Procesando información del archivo Excel...
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     LIBRERÍAS
+========================================================= -->
+
+<!-- CHART.JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"
+></script>
+
+
+<!-- CHART DATA LABELS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"
+></script>
+
+
+<!-- =========================================================
+     SCRIPT PRINCIPAL
+========================================================= -->
+<script
+    type="module"
+    src="restricciones.js"
+></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Sistema de monitoreo de descansos médicos del personal."
+    >
+
+    <title>
+        Monitoreo de Descansos Médicos
+    </title>
+
+    <!-- ICONOS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+    <!-- ESTILOS -->
+    <link
+        rel="stylesheet"
+        href="descanso.css"
+    >
+
+    <!-- CHART.JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+    <!-- ETIQUETAS DE GRÁFICOS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"
+    ></script>
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         LOADING DEL SISTEMA
+    ====================================================== -->
+    <div
+        id="loadingSistema"
+        class="loading-overlay"
+        role="status"
+        aria-live="polite"
+    >
+
+        <div class="loading-box">
+
+            <div
+                class="loading-spinner"
+                aria-hidden="true"
+            ></div>
+
+            <h3>
+                Procesando información
+            </h3>
+
+            <p>
+                Cargando registros de descansos médicos...
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+    <header class="top-header">
+
+        <div class="top-header__left">
+
+            <a
+                href="../index.html"
+                class="btn-regresar"
+                title="Regresar al inicio"
+            >
+
+                <i
+                    class="fa-solid fa-arrow-left"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Regresar
+                </span>
+
+            </a>
+
+        </div>
+
+        <div class="top-header__right top-header__right--simple">
+
+            <!-- FILTRO AÑO -->
+            <div class="filtro-fecha filtro-fecha--anio">
+
+                <i
+                    class="fa-solid fa-calendar-days"
+                    aria-hidden="true"
+                ></i>
+
+                <select
+                    id="filtroAnio"
+                    aria-label="Seleccionar año"
+                ></select>
+
+            </div>
+
+            <!-- FILTRO NOMBRE O DNI -->
+            <div class="filtro-fecha filtro-fecha--nombre">
+
+                <i
+                    class="fa-solid fa-user-magnifying-glass"
+                    aria-hidden="true"
+                ></i>
+
+                <input
+                    type="text"
+                    id="filtroNombreGeneral"
+                    placeholder="Buscar por nombre o DNI..."
+                    autocomplete="off"
+                    list="listaNombresPersonal"
+                    aria-label="Buscar personal por nombre o DNI"
+                >
+
+                <datalist id="listaNombresPersonal"></datalist>
+
+            </div>
+
+            <!-- FILTRO MES -->
+            <details
+                class="filtro-check"
+                id="boxFiltroMes"
+            >
+
+                <summary>
+
+                    <i
+                        class="fa-solid fa-calendar"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span id="textoFiltroMes">
+                        TODOS LOS MESES
+                    </span>
+
+                </summary>
+
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroMes"
+                ></div>
+
+            </details>
+
+            <!-- FILTRO TIPO DE DOCUMENTO -->
+            <details
+                class="filtro-check"
+                id="boxFiltroTipoDocumento"
+            >
+
+                <summary>
+
+                    <i
+                        class="fa-solid fa-file-medical"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span id="textoFiltroTipoDocumento">
+                        TODOS LOS TIPOS
+                    </span>
+
+                </summary>
+
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroTipoDocumento"
+                ></div>
+
+            </details>
+
+            <!-- FILTRO CONTINGENCIA -->
+            <details
+                class="filtro-check"
+                id="boxFiltroContingencia"
+            >
+
+                <summary>
+
+                    <i
+                        class="fa-solid fa-notes-medical"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span id="textoFiltroContingencia">
+                        TODAS LAS CONTINGENCIAS
+                    </span>
+
+                </summary>
+
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroContingencia"
+                ></div>
+
+            </details>
+
+            <!-- FILTRO DIAGNÓSTICO -->
+            <details
+                class="filtro-check filtro-check--wide"
+                id="boxFiltroDiagnostico"
+            >
+
+                <summary>
+
+                    <i
+                        class="fa-solid fa-stethoscope"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span id="textoFiltroDiagnostico">
+                        TODOS LOS DIAGNÓSTICOS
+                    </span>
+
+                </summary>
+
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroDiagnostico"
+                ></div>
+
+            </details>
+
+            <!-- FILTRO HOSPITAL -->
+            <details
+                class="filtro-check filtro-check--wide"
+                id="boxFiltroHospital"
+            >
+
+                <summary>
+
+                    <i
+                        class="fa-solid fa-hospital"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span id="textoFiltroHospital">
+                        TODOS LOS HOSPITALES
+                    </span>
+
+                </summary>
+
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroHospital"
+                ></div>
+
+            </details>
+
+            <!-- BOTÓN LIMPIAR FILTROS -->
+            <button
+                type="button"
+                id="btnLimpiarTodo"
+                class="btn-filtro btn-filtro--reset"
+            >
+
+                <i
+                    class="fa-solid fa-rotate-left"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Limpiar todo
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+    ====================================================== -->
+    <main class="dashboard-container">
+
+        <!-- =================================================
+             KPI
+        ================================================== -->
+        <section class="kpi-grid">
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+
+                    <i
+                        class="fa-solid fa-users"
+                        aria-hidden="true"
+                    ></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <h3>
+                        Personas con descanso médico
+                    </h3>
+
+                    <h2 id="kpiPersonasUnicas">
+                        0
+                    </h2>
+
+                </div>
+
+            </article>
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+
+                    <i
+                        class="fa-solid fa-file-medical"
+                        aria-hidden="true"
+                    ></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <h3>
+                        Total de descansos médicos
+                    </h3>
+
+                    <h2 id="kpiTotalDescansos">
+                        0
+                    </h2>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 1: GRÁFICOS BASE DEL AÑO
+        ================================================== -->
+        <section class="charts-grid">
+
+            <!-- DESCANSOS POR MES -->
+            <article class="panel">
+
+                <div class="panel-header panel-header--between">
+
+                    <h2>
+                        Descansos médicos por mes
+                    </h2>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Total año:
+                        </span>
+
+                        <strong id="textoAnio">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas
+                        id="graficoDescansosPorMes"
+                        aria-label="Gráfico de descansos médicos por mes"
+                    ></canvas>
+
+                </div>
+
+            </article>
+
+            <!-- CONDICIÓN LABORAL POR MES -->
+            <article class="panel">
+
+                <div class="panel-header panel-header--between">
+
+                    <h2>
+                        Condición laboral por mes
+                    </h2>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Total año:
+                        </span>
+
+                        <strong id="textoAnioCondicion">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas
+                        id="graficoCondicionPorMes"
+                        aria-label="Gráfico de condición laboral por mes"
+                    ></canvas>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 2: EVOLUCIÓN DIARIA
+        ================================================== -->
+        <section class="charts-grid charts-grid--full">
+
+            <article class="panel panel-full">
+
+                <div class="panel-header panel-header--between">
+
+                    <h2>
+                        Evolución diaria de descansos médicos por mes
+                    </h2>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Dinámico:
+                        </span>
+
+                        <strong>
+                            Según filtros
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-container chart-container--line-full">
+
+                    <canvas
+                        id="graficoLineasMesesPorDia"
+                        aria-label="Gráfico de evolución diaria de descansos médicos"
+                    ></canvas>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 3: TIPO DE DOCUMENTO Y CONTINGENCIA
+        ================================================== -->
+        <section class="charts-grid">
+
+            <!-- TIPO DE DOCUMENTO -->
+            <article class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        Descansos médicos por tipo de documento
+                    </h2>
+
+                </div>
+
+                <div class="chart-container chart-container--pie chart-container--pie-total">
+
+                    <canvas
+                        id="graficoTipoDocumento"
+                        aria-label="Gráfico de descansos médicos por tipo de documento"
+                    ></canvas>
+
+                    <div
+                        id="totalTipoDocumento"
+                        class="chart-total-box"
+                    ></div>
+
+                </div>
+
+            </article>
+
+            <!-- CONTINGENCIA -->
+            <article class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        Descansos médicos por contingencia
+                    </h2>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas
+                        id="graficoContingencia"
+                        aria-label="Gráfico de descansos médicos por contingencia"
+                    ></canvas>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 4: RANKING Y CARGO
+        ================================================== -->
+        <section class="charts-grid">
+
+            <!-- RANKING DE PERSONAL -->
+            <article class="panel panel-ranking">
+
+                <div class="panel-header panel-header--between panel-header--ranking">
+
+                    <h2>
+                        Personas con más descansos médicos solicitados
+                    </h2>
+
+                    <div class="panel-actions">
+
+                        <div class="search-box">
+
+                            <i
+                                class="fa-solid fa-magnifying-glass"
+                                aria-hidden="true"
+                            ></i>
+
+                            <input
+                                type="text"
+                                id="buscarPersonaDescanso"
+                                placeholder="Buscar en ranking..."
+                                autocomplete="off"
+                                aria-label="Buscar persona en el ranking"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-container chart-container--ranking">
+
+                    <div class="ranking-canvas-wrap">
+
+                        <canvas
+                            id="graficoTopPersonas"
+                            aria-label="Gráfico de personas con más descansos médicos"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <!-- DESCANSOS POR CARGO -->
+            <article class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        Descansos médicos por cargo
+                    </h2>
+
+                </div>
+
+                <div class="chart-container chart-container--cargo">
+
+                    <canvas
+                        id="graficoCargo"
+                        aria-label="Gráfico de descansos médicos por cargo"
+                    ></canvas>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 5: MATRIZ DE ALERTAS
+        ================================================== -->
+        <section class="charts-grid charts-grid--full">
+
+            <article class="panel panel-full panel-alerta-descansos">
+
+                <div class="panel-header panel-header--between">
+
+                    <div>
+
+                        <h2>
+                            Personas con 25 a 30 días por mes y continuidad
+                        </h2>
+
+                        <p class="panel-subtitle">
+                            Matriz horizontal para identificar descansos médicos prolongados y meses consecutivos.
+                        </p>
+
+                    </div>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Alerta:
+                        </span>
+
+                        <strong>
+                            25 a 30 días
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <!-- LEYENDA -->
+                <div class="alerta-leyenda">
+
+                    <span class="alerta-leyenda__item">
+
+                        <i class="alerta-dot alerta-dot--mensual"></i>
+
+                        Mensual
+
+                    </span>
+
+                    <span class="alerta-leyenda__item">
+
+                        <i class="alerta-dot alerta-dot--seguido"></i>
+
+                        2 meses seguidos
+
+                    </span>
+
+                    <span class="alerta-leyenda__item">
+
+                        <i class="alerta-dot alerta-dot--critico"></i>
+
+                        3 o más meses seguidos
+
+                    </span>
+
+                    <span class="alerta-leyenda__item">
+
+                        <i class="alerta-dot alerta-dot--no-seguido"></i>
+
+                        No seguido
+
+                    </span>
+
+                </div>
+
+                <!-- TABLA MATRIZ -->
+                <div class="matriz-alerta-scroll">
+
+                    <table class="matriz-alerta-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="matriz-col-persona">
+                                    Personal
+                                </th>
+
+                                <th>ENE</th>
+                                <th>FEB</th>
+                                <th>MAR</th>
+                                <th>ABR</th>
+                                <th>MAY</th>
+                                <th>JUN</th>
+                                <th>JUL</th>
+                                <th>AGO</th>
+                                <th>SET</th>
+                                <th>OCT</th>
+                                <th>NOV</th>
+                                <th>DIC</th>
+
+                                <th class="matriz-col-estado">
+                                    Estado
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tablaMatrizAlertaDescansos">
+
+                            <tr>
+
+                                <td
+                                    colspan="14"
+                                    class="empty-cell"
+                                >
+                                    Cargando matriz de alertas...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 6:
+             POSTERIOR AL DM Y REINCIDENCIA
+             UNO AL LADO DEL OTRO
+        ================================================== -->
+        <section class="charts-grid charts-grid--posterior-dm">
+
+            <!-- =============================================
+                 POSTERIOR AL DESCANSO MÉDICO
+            ============================================== -->
+            <article class="panel panel-ausencias-dm">
+
+                <div class="panel-header panel-header--between">
+
+                    <div>
+
+                        <h2>
+                            Posterior al descanso médico
+                        </h2>
+
+                        <p class="panel-subtitle">
+                            Personal que no está de turno justo después de su descanso médico.
+                        </p>
+
+                    </div>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Detectados:
+                        </span>
+
+                        <strong id="totalDescansosAntesAusencia">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <!-- ESTADO DE ARCHIVOS -->
+                <div
+                    id="estadoArchivoAsistencia"
+                    class="estado-archivo-asistencia"
+                >
+
+                    <i
+                        class="fa-solid fa-file-excel"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span>
+                        Cargando archivos mensuales...
+                    </span>
+
+                </div>
+
+                <!-- TABLA DE RESULTADOS -->
+                <div class="tabla-ausencias-scroll">
+
+                    <table class="tabla-ausencias-dm">
+
+                        <thead>
+
+                            <tr>
+                                <th>DNI</th>
+                                <th>Personal</th>
+                                <th>Inicio DM</th>
+                                <th>Fin DM</th>
+                                <th>Marca posterior</th>
+                                <th>Mes</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tablaDescansosAntesAusencia">
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="empty-cell"
+                                >
+                                    Cargando análisis de descansos médicos y marcas posteriores...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </article>
+
+            <!-- =============================================
+                 REINCIDENCIA POSTERIOR AL DESCANSO MÉDICO
+            ============================================== -->
+            <article class="panel panel-reincidencia-dm">
+
+                <div class="panel-header panel-header--between">
+
+                    <div>
+
+                        <h2>
+                            Reincidencia posterior al descanso médico
+                        </h2>
+
+                       
+
+                    </div>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Reincidentes:
+                        </span>
+
+                        <strong id="totalReincidentesPosteriorDM">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-container chart-container--reincidencia-dm">
+
+                    <div class="reincidencia-dm-canvas-wrap">
+
+                        <canvas
+                            id="graficoReincidentesPosteriorDM"
+                            aria-label="Gráfico de reincidencia posterior al descanso médico"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- =================================================
+             FILA 7: HOSPITALES
+        ================================================== -->
+        <section class="charts-grid charts-grid--full">
+
+            <article class="panel panel-full panel-hospitales">
+
+                <div class="panel-header panel-header--between">
+
+                    <h2>
+                        Hospitales y establecimientos de salud más frecuentes
+                    </h2>
+
+                    <div class="mini-filtro">
+
+                        <span>
+                            Campo:
+                        </span>
+
+                        <strong>
+                            txtestablecimientosalud
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="chart-container chart-container--hospital">
+
+                    <div class="hospital-canvas-wrap">
+
+                        <canvas
+                            id="graficoHospitales"
+                            aria-label="Gráfico de hospitales y establecimientos de salud"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+    <!-- =====================================================
+         MODAL: DETALLE GENERAL
+    ====================================================== -->
+    <div
+        id="modalDetalleGeneral"
+        class="modal-dashboard"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalDetalleTitulo"
+    >
+
+        <div class="modal-dashboard__box modal-dashboard__box--wide">
+
+            <!-- CABECERA -->
+            <div class="modal-dashboard__header">
+
+                <div>
+
+                    <h2 id="modalDetalleTitulo">
+                        Detalle de descansos médicos
+                    </h2>
+
+                    <p id="modalDetalleSubtitulo">
+                        Registros ordenados cronológicamente
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="btnCerrarModalDetalleGeneral"
+                    class="modal-close-btn"
+                    aria-label="Cerrar detalle"
+                    title="Cerrar"
+                >
+
+                    <i
+                        class="fa-solid fa-xmark"
+                        aria-hidden="true"
+                    ></i>
+
+                </button>
+
+            </div>
+
+            <!-- CUERPO -->
+            <div class="modal-dashboard__body">
+
+                <!-- RESUMEN -->
+                <section class="modal-summary-grid">
+
+                    <article class="modal-summary-card">
+
+                        <span>
+                            Registros
+                        </span>
+
+                        <strong id="modalResumenRegistros">
+                            0
+                        </strong>
+
+                    </article>
+
+                    <article class="modal-summary-card">
+
+                        <span>
+                            Personas
+                        </span>
+
+                        <strong id="modalResumenPersonas">
+                            0
+                        </strong>
+
+                    </article>
+
+                    <article class="modal-summary-card">
+
+                        <span>
+                            Días acumulados
+                        </span>
+
+                        <strong id="modalResumenDias">
+                            0
+                        </strong>
+
+                    </article>
+
+                </section>
+
+                <!-- SUBTIPOS -->
+                <section
+                    id="bloqueSubtiposContingencia"
+                    class="subtipo-section"
+                >
+
+                    <div class="modal-section-header">
+
+                        <h3>
+                            Subtipos por diagnóstico
+                        </h3>
+
+                        <span>
+                            txtcontingencia / txtotrosdiagnosticos
+                        </span>
+
+                    </div>
+
+                    <div
+                        id="listaSubtiposContingencia"
+                        class="subtipo-grid"
+                    ></div>
+
+                </section>
+
+                <!-- TABLA DE DETALLE -->
+                <section class="modal-detail-section">
+
+                    <div class="modal-section-header">
+
+                        <h3 id="tituloTablaDetalleGeneral">
+                            Relación cronológica
+                        </h3>
+
+                        <span id="contadorTablaDetalleGeneral">
+                            0 registros
+                        </span>
+
+                    </div>
+
+                    <div class="table-scroll">
+
+                        <table class="detalle-table detalle-table--simple">
+
+                            <thead>
+
+                                <tr>
+                                    <th>N.°</th>
+                                    <th>Personal</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha término</th>
+                                    <th>Días</th>
+                                    <th>Tipo documento</th>
+                                    <th>Contingencia</th>
+                                    <th>Diagnóstico</th>
+                                    <th>Hospital / establecimiento</th>
+                                    <th>Marca posterior</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="tablaDetalleGeneral">
+
+                                <tr>
+
+                                    <td
+                                        colspan="10"
+                                        class="empty-cell"
+                                    >
+                                        Selecciona una barra, punto, sector o celda para ver el detalle.
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         JAVASCRIPT PRINCIPAL
+    ====================================================== -->
+    <script
+
+        type="module"
+
+        src="../backend/proteccion.js"
+
+    ></script>
+    <script
+        type="module"
+        src="descansos.js"
+    ></script>
+
+</body>
+
+</html>

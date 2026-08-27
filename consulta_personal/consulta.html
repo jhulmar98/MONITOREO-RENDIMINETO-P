@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Consulta integral de personal, capacitación, descansos médicos y papeletas."
+    >
+
+    <title>
+        Consulta Integral de Personal
+    </title>
+
+    <!-- ICONOS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- ESTILOS -->
+    <link
+        rel="stylesheet"
+        href="./consulta.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ==================================================
+         PANTALLA DE CARGA
+    =================================================== -->
+    <div
+        id="loadingSistema"
+        class="loading-sistema"
+        role="status"
+        aria-live="polite"
+    >
+
+        <div class="loading-sistema__contenido">
+
+            <div
+                class="loading-sistema__spinner"
+                aria-hidden="true"
+            ></div>
+
+            <strong>
+                Cargando información
+            </strong>
+
+            <span>
+                Consultando personal, descansos médicos y papeletas...
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- ==================================================
+         PÁGINA PRINCIPAL
+    =================================================== -->
+    <main class="consulta-page">
+
+        <!-- ==================================================
+             ENCABEZADO
+        =================================================== -->
+        <header class="consulta-header">
+
+            <div class="consulta-header__identidad">
+
+                <div class="consulta-header__icono">
+
+                    <i
+                        class="fa-solid fa-shield-halved"
+                        aria-hidden="true"
+                    ></i>
+
+                </div>
+
+                <div>
+
+                    <h1>
+                        Consulta Integral de Personal
+                    </h1>
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="consulta-header__acciones">
+
+                
+
+                <a
+                    href="../index.html"
+                    class="btn-regresar"
+                >
+
+                    <i
+                        class="fa-solid fa-arrow-left"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span>
+                        Regresar
+                    </span>
+
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- ==================================================
+             CONTENIDO PRINCIPAL
+        =================================================== -->
+        <section class="consulta-contenido">
+
+            <!-- ==================================================
+                 BUSCADOR DE PERSONAL
+            =================================================== -->
+            <section class="buscador-personal">
+
+                <div class="buscador-personal__cabecera">
+
+                    <div>
+
+                        
+
+                        <h2>
+                            Buscar personal
+                        </h2>
+
+                       
+                    </div>
+
+                </div>
+
+                <div class="buscador-personal__campo-wrap">
+
+                    <div class="buscador-personal__campo">
+
+                        <i
+                            class="fa-solid fa-magnifying-glass"
+                            aria-hidden="true"
+                        ></i>
+
+                        <input
+                            type="search"
+                            id="buscadorPersonal"
+                            placeholder="Buscar por DNI o nombre..."
+                            autocomplete="off"
+                            spellcheck="false"
+                            aria-label="Buscar personal por DNI o nombre"
+                        >
+
+                        <button
+                            type="button"
+                            id="btnLimpiarBusqueda"
+                            class="buscador-personal__limpiar"
+                            aria-label="Limpiar búsqueda"
+                            title="Limpiar búsqueda"
+                        >
+
+                            <i
+                                class="fa-solid fa-xmark"
+                                aria-hidden="true"
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                    <!-- SUGERENCIAS -->
+                    <div
+                        id="listaSugerenciasPersonal"
+                        class="sugerencias-personal"
+                        hidden
+                    >
+
+                        <div
+                            id="contenidoSugerenciasPersonal"
+                            class="sugerencias-personal__contenido"
+                        ></div>
+
+                        <div
+                            id="mensajeSinResultados"
+                            class="sugerencias-personal__vacio"
+                            hidden
+                        >
+
+                            <i
+                                class="fa-solid fa-user-slash"
+                                aria-hidden="true"
+                            ></i>
+
+                            <span>
+                                No se encontraron coincidencias.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- ==================================================
+                 ESTADO INICIAL
+            =================================================== -->
+            <section
+                id="estadoInicialConsulta"
+                class="estado-consulta estado-consulta--inicial"
+            >
+
+                <div class="estado-consulta__icono">
+
+                    <i
+                        class="fa-solid fa-address-card"
+                        aria-hidden="true"
+                    ></i>
+
+                </div>
+
+                <h2>
+                    Selecciona una persona
+                </h2>
+
+                
+
+            </section>
+
+            <!-- ==================================================
+                 MENSAJE DE ERROR
+            =================================================== -->
+            <section
+                id="estadoErrorConsulta"
+                class="estado-consulta estado-consulta--error"
+                hidden
+            >
+
+                <div class="estado-consulta__icono">
+
+                    <i
+                        class="fa-solid fa-triangle-exclamation"
+                        aria-hidden="true"
+                    ></i>
+
+                </div>
+
+                <h2>
+                    No se pudo cargar la información
+                </h2>
+
+                <p id="mensajeErrorConsulta">
+                    Ocurrió un problema al consultar la información.
+                </p>
+
+                <button
+                    type="button"
+                    id="btnReintentarConsulta"
+                    class="btn-accion"
+                >
+
+                    <i
+                        class="fa-solid fa-rotate-right"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span>
+                        Reintentar
+                    </span>
+
+                </button>
+
+            </section>
+
+            <!-- ==================================================
+                 FICHA DEL PERSONAL
+            =================================================== -->
+            <section
+                id="fichaPersonal"
+                class="ficha-personal"
+                hidden
+            >
+
+                <!-- ==================================================
+                     PERFIL
+                =================================================== -->
+                <article class="perfil-card">
+
+                    <div class="perfil-card__foto-wrap">
+
+                        <img
+                            id="fotoPersonal"
+                            class="perfil-card__foto"
+                            src="../imagenes/hombre.png"
+                            alt="Imagen del personal"
+                        >
+
+                        <div
+                            id="estadoPersonalBadge"
+                            class="perfil-card__estado"
+                        >
+
+                            <span></span>
+
+                            ACTIVO
+
+                        </div>
+
+                    </div>
+
+                    <div class="perfil-card__informacion">
+
+                        <div class="perfil-card__titulo">
+
+                            <span class="section-eyebrow">
+                                Información del personal
+                            </span>
+
+                            <h2 id="nombrePersonal">
+                                -
+                            </h2>
+
+                        </div>
+
+                        <div class="perfil-datos-grid">
+
+                            <!-- DNI -->
+                            <div class="perfil-dato">
+
+                                <div class="perfil-dato__icono">
+
+                                    <i
+                                        class="fa-solid fa-id-card"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        DNI
+                                    </span>
+
+                                    <strong id="dniPersonal">
+                                        -
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <!-- NOMBRES -->
+                            <div class="perfil-dato">
+
+                                <div class="perfil-dato__icono">
+
+                                    <i
+                                        class="fa-solid fa-user"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Apellidos y nombres
+                                    </span>
+
+                                    <strong id="apellidosNombresPersonal">
+                                        -
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <!-- ÁREA -->
+                            <div class="perfil-dato">
+
+                                <div class="perfil-dato__icono">
+
+                                    <i
+                                        class="fa-solid fa-building"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Área
+                                    </span>
+
+                                    <strong id="areaPersonal">
+                                        -
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <!-- CONDICIÓN -->
+                            <div class="perfil-dato">
+
+                                <div class="perfil-dato__icono">
+
+                                    <i
+                                        class="fa-solid fa-file-contract"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Condición laboral
+                                    </span>
+
+                                    <strong id="condicionLaboralPersonal">
+                                        -
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <!-- FUNCIÓN -->
+                            <div class="perfil-dato">
+
+                                <div class="perfil-dato__icono">
+
+                                    <i
+                                        class="fa-solid fa-briefcase"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Función
+                                    </span>
+
+                                    <strong id="funcionPersonal">
+                                        -
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                            <!-- SEXO -->
+                            <div class="perfil-dato">
+
+                                <div class="perfil-dato__icono">
+
+                                    <i
+                                        class="fa-solid fa-venus-mars"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Sexo
+                                    </span>
+
+                                    <strong id="sexoPersonal">
+                                        -
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CAPACITACIÓN -->
+                    <aside class="capacitacion-card">
+
+                        <div class="capacitacion-card__icono">
+
+                            <i
+                                class="fa-solid fa-graduation-cap"
+                                aria-hidden="true"
+                            ></i>
+
+                        </div>
+
+                        <span class="capacitacion-card__titulo">
+                            Promedio de capacitación
+                        </span>
+
+                        <div
+                            id="bloquePromedioCapacitacion"
+                            class="capacitacion-card__resultado"
+                        >
+
+                            <strong id="promedioNotaPersonal">
+                                -
+                            </strong>
+
+                            <span id="escalaPromedioPersonal">
+                                /100
+                            </span>
+
+                        </div>
+
+                        <div
+                            id="estadoCapacitacionPersonal"
+                            class="capacitacion-card__badge"
+                        >
+                            SIN INFORMACIÓN
+                        </div>
+
+                        <p
+                            id="mensajeCapacitacionPersonal"
+                            class="capacitacion-card__mensaje"
+                        >
+                            Aún no recibe capacitación.
+                        </p>
+
+                    </aside>
+
+                </article>
+
+                <!-- ==================================================
+                     TARJETAS DE INDICADORES
+                =================================================== -->
+                <section class="indicadores-grid">
+
+                    <!-- ==================================================
+                         TARJETA DESCANSOS MÉDICOS
+                    =================================================== -->
+                    <article
+                        id="cardTotalDescansos"
+                        class="indicador-card indicador-card--descansos"
+                    >
+
+                        <div class="indicador-card__icono">
+
+                            <i
+                                class="fa-solid fa-briefcase-medical"
+                                aria-hidden="true"
+                            ></i>
+
+                        </div>
+
+                        <div class="indicador-card__contenido">
+
+                            <span class="indicador-card__titulo">
+                                Descansos médicos
+                            </span>
+
+                            <strong id="totalDescansosMedicos">
+                                0
+                            </strong>
+
+                            <span class="indicador-card__unidad">
+                                descansos
+                            </span>
+
+                            <!-- BOTÓN DASHBOARD DESCANSOS -->
+                            <button
+                                type="button"
+                                id="btnDashboardDescansos"
+                                class="indicador-card__boton indicador-card__boton--descansos"
+                                aria-expanded="false"
+                                aria-controls="dashboardDescansos"
+                            >
+
+                                <i
+                                    class="fa-solid fa-chart-column"
+                                    aria-hidden="true"
+                                ></i>
+
+                                <span>
+                                    Dashboard
+                                </span>
+
+                                <i
+                                    class="fa-solid fa-chevron-down indicador-card__flecha"
+                                    aria-hidden="true"
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                    <!-- ==================================================
+                         TARJETA DÍAS ACUMULADOS
+                    =================================================== -->
+                    <article
+                        id="cardDiasDescanso"
+                        class="indicador-card indicador-card--dias"
+                    >
+
+                        <div class="indicador-card__icono">
+
+                            <i
+                                class="fa-solid fa-calendar-days"
+                                aria-hidden="true"
+                            ></i>
+
+                        </div>
+
+                        <div class="indicador-card__contenido">
+
+                            <span class="indicador-card__titulo">
+                                Días de descanso acumulados
+                            </span>
+
+                            <strong id="totalDiasDescanso">
+                                0
+                            </strong>
+
+                            <span class="indicador-card__unidad">
+                                días
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                    <!-- ==================================================
+                         TARJETA PAPELETAS
+                    =================================================== -->
+                    <article
+                        id="cardTotalPapeletas"
+                        class="indicador-card indicador-card--papeletas"
+                    >
+
+                        <div class="indicador-card__icono">
+
+                            <i
+                                class="fa-solid fa-ticket"
+                                aria-hidden="true"
+                            ></i>
+
+                        </div>
+
+                        <div class="indicador-card__contenido">
+
+                            <span class="indicador-card__titulo">
+                                Papeletas
+                            </span>
+
+                            <strong id="totalPapeletas">
+                                0
+                            </strong>
+
+                            <span class="indicador-card__unidad">
+                                papeletas
+                            </span>
+
+                            <!-- BOTÓN DASHBOARD PAPELETAS -->
+                            <button
+                                type="button"
+                                id="btnDashboardPapeletas"
+                                class="indicador-card__boton indicador-card__boton--papeletas"
+                                aria-expanded="false"
+                                aria-controls="dashboardPapeletas"
+                            >
+
+                                <i
+                                    class="fa-solid fa-chart-pie"
+                                    aria-hidden="true"
+                                ></i>
+
+                                <span>
+                                    Dashboard
+                                </span>
+
+                                <i
+                                    class="fa-solid fa-chevron-down indicador-card__flecha"
+                                    aria-hidden="true"
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+                <!-- ==================================================
+                     DASHBOARD DE DESCANSOS MÉDICOS
+                     OCULTO INICIALMENTE
+                =================================================== -->
+                <section
+                    id="dashboardDescansos"
+                    class="dashboard-seccion dashboard-seccion--descansos"
+                    hidden
+                >
+
+                    <header class="dashboard-seccion__header">
+
+                        <div class="dashboard-seccion__titulo">
+
+                            <div class="dashboard-seccion__icono">
+
+                                <i
+                                    class="fa-solid fa-briefcase-medical"
+                                    aria-hidden="true"
+                                ></i>
+
+                            </div>
+
+                            <div>
+
+                                
+
+                                <h2>
+                                    Dashboard de descansos médicos
+                                </h2>
+
+                                
+
+                            </div>
+
+                        </div>
+
+                        <div class="dashboard-seccion__acciones">
+
+                            <span
+                                id="contadorDescansosDashboard"
+                                class="dashboard-seccion__contador"
+                            >
+                                0 registros
+                            </span>
+
+                            <button
+                                type="button"
+                                id="btnCerrarDashboardDescansos"
+                                class="dashboard-seccion__cerrar"
+                                aria-label="Cerrar dashboard de descansos médicos"
+                                title="Cerrar dashboard"
+                            >
+
+                                <i
+                                    class="fa-solid fa-xmark"
+                                    aria-hidden="true"
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+                    </header>
+
+                    <!-- SIN DESCANSOS -->
+                    <div
+                        id="mensajeSinDescansos"
+                        class="detalle-vacio"
+                        hidden
+                    >
+
+                        <i
+                            class="fa-solid fa-circle-check"
+                            aria-hidden="true"
+                        ></i>
+
+                        <strong>
+                            No registra descansos médicos
+                        </strong>
+
+                        <span>
+                            No se encontraron registros asociados al DNI.
+                        </span>
+
+                    </div>
+
+                    <!-- GRÁFICOS -->
+                    <div
+                        id="contenedorGraficosDescansos"
+                        class="graficos-dashboard-grid"
+                    >
+
+                        <!-- DESCANSOS POR MES -->
+                        <article
+                            class="grafico-card grafico-card--ancho"
+                        >
+
+                            <header class="grafico-card__header">
+
+                                <div>
+
+                                    
+
+                                    <h3>
+                                        Descansos médicos por mes
+                                    </h3>
+
+                                    
+                                </div>
+
+                                <div class="grafico-card__icono">
+
+                                    <i
+                                        class="fa-solid fa-chart-column"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                            </header>
+
+                            <div class="grafico-card__canvas grafico-card__canvas--linea">
+
+                                <canvas
+                                    id="graficoDescansosPorMes"
+                                    aria-label="Gráfico de descansos médicos por mes"
+                                ></canvas>
+
+                            </div>
+
+                        </article>
+
+                        <!-- TIPO DE DOCUMENTO -->
+                        <article class="grafico-card">
+
+                            <header class="grafico-card__header">
+
+                                <div>
+
+                                    
+
+                                    <h3>
+                                        Procedencia de descansos médicos
+                                    </h3>
+
+                                    
+
+                                </div>
+
+                                <div class="grafico-card__icono">
+
+                                    <i
+                                        class="fa-solid fa-file-medical"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                            </header>
+
+                            <div class="grafico-card__canvas grafico-card__canvas--torta">
+
+                                <canvas
+                                    id="graficoDescansosTipoDocumento"
+                                    aria-label="Gráfico de descansos por tipo de documento"
+                                ></canvas>
+
+                            </div>
+
+                        </article>
+
+                        <!-- DIAGNÓSTICOS -->
+                        <article class="grafico-card">
+
+                            <header class="grafico-card__header">
+
+                                <div>
+
+                                    
+
+                                    <h3>
+                                        Diagnósticos registrados
+                                    </h3>
+
+                                    
+
+                                </div>
+
+                                <div class="grafico-card__icono">
+
+                                    <i
+                                        class="fa-solid fa-stethoscope"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                            </header>
+
+                            <div class="grafico-card__canvas grafico-card__canvas--horizontal">
+
+                                <canvas
+                                    id="graficoDescansosDiagnostico"
+                                    aria-label="Gráfico de descansos por diagnóstico"
+                                ></canvas>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+                <!-- ==================================================
+                     DASHBOARD DE PAPELETAS
+                     OCULTO INICIALMENTE
+                =================================================== -->
+                <section
+                    id="dashboardPapeletas"
+                    class="dashboard-seccion dashboard-seccion--papeletas"
+                    hidden
+                >
+
+                    <header class="dashboard-seccion__header">
+
+                        <div class="dashboard-seccion__titulo">
+
+                            <div class="dashboard-seccion__icono">
+
+                                <i
+                                    class="fa-solid fa-ticket"
+                                    aria-hidden="true"
+                                ></i>
+
+                            </div>
+
+                            <div>
+
+                                
+
+                                <h2>
+                                    Dashboard de papeletas
+                                </h2>
+
+                                
+
+                            </div>
+
+                        </div>
+
+                        <div class="dashboard-seccion__acciones">
+
+                            <span
+                                id="contadorPapeletasDashboard"
+                                class="dashboard-seccion__contador"
+                            >
+                                0 registros
+                            </span>
+
+                            <button
+                                type="button"
+                                id="btnCerrarDashboardPapeletas"
+                                class="dashboard-seccion__cerrar"
+                                aria-label="Cerrar dashboard de papeletas"
+                                title="Cerrar dashboard"
+                            >
+
+                                <i
+                                    class="fa-solid fa-xmark"
+                                    aria-hidden="true"
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+                    </header>
+
+                    <!-- SIN PAPELETAS -->
+                    <div
+                        id="mensajeSinPapeletas"
+                        class="detalle-vacio"
+                        hidden
+                    >
+
+                        <i
+                            class="fa-solid fa-circle-check"
+                            aria-hidden="true"
+                        ></i>
+
+                        <strong>
+                            No registra papeletas
+                        </strong>
+
+                        <span>
+                            No se encontraron registros asociados al DNI.
+                        </span>
+
+                    </div>
+
+                    <!-- GRÁFICOS -->
+                    <div
+                        id="contenedorGraficosPapeletas"
+                        class="graficos-dashboard-grid"
+                    >
+
+                        <!-- PAPELETAS POR MES -->
+                        <article
+                            class="grafico-card grafico-card--ancho grafico-card--papeletas"
+                        >
+
+                            <header class="grafico-card__header">
+
+                                <div>
+
+                                    
+
+                                    <h3>
+                                        Papeletas por mes
+                                    </h3>
+
+                                    
+
+                                </div>
+
+                                <div class="grafico-card__icono">
+
+                                    <i
+                                        class="fa-solid fa-chart-column"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                            </header>
+
+                            <div class="grafico-card__canvas grafico-card__canvas--linea">
+
+                                <canvas
+                                    id="graficoPapeletasPorMes"
+                                    aria-label="Gráfico de papeletas por mes"
+                                ></canvas>
+
+                            </div>
+
+                        </article>
+
+                        <!-- TIPO DE PAPELETA -->
+                        <article class="grafico-card grafico-card--papeletas">
+
+                            <header class="grafico-card__header">
+
+                                <div>
+
+                                    
+
+                                    <h3>
+                                        Tipos de papeleta
+                                    </h3>
+
+                                   
+
+                                </div>
+
+                                <div class="grafico-card__icono">
+
+                                    <i
+                                        class="fa-solid fa-file-signature"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                            </header>
+
+                            <div class="grafico-card__canvas grafico-card__canvas--torta">
+
+                                <canvas
+                                    id="graficoPapeletasTipo"
+                                    aria-label="Gráfico de papeletas por tipo"
+                                ></canvas>
+
+                            </div>
+
+                        </article>
+
+                        <!-- MOTIVOS -->
+                        <article class="grafico-card grafico-card--papeletas">
+
+                            <header class="grafico-card__header">
+
+                                <div>
+
+                                    
+
+                                    <h3>
+                                        Motivos de papeleta
+                                    </h3>
+
+                                    
+                                </div>
+
+                                <div class="grafico-card__icono">
+
+                                    <i
+                                        class="fa-solid fa-list-check"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                </div>
+
+                            </header>
+
+                            <div class="grafico-card__canvas grafico-card__canvas--horizontal">
+
+                                <canvas
+                                    id="graficoPapeletasMotivo"
+                                    aria-label="Gráfico de papeletas por motivo"
+                                ></canvas>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+        </section>
+
+    </main>
+
+    <!-- ==================================================
+         MODAL GENERAL DE DETALLE
+    =================================================== -->
+    <div
+        id="modalDetalleGrafico"
+        class="modal-consulta"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalDetalleTitulo"
+    >
+
+        <div class="modal-consulta__dialog">
+
+            <header class="modal-consulta__header">
+
+                <div>
+
+                    <span
+                        id="modalDetalleEyebrow"
+                        class="section-eyebrow"
+                    >
+                        Detalle de registros
+                    </span>
+
+                    <h2 id="modalDetalleTitulo">
+                        Detalle
+                    </h2>
+
+                    <p id="modalDetalleSubtitulo">
+                        -
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="btnCerrarModalDetalle"
+                    class="modal-consulta__cerrar"
+                    aria-label="Cerrar detalle"
+                    title="Cerrar"
+                >
+
+                    <i
+                        class="fa-solid fa-xmark"
+                        aria-hidden="true"
+                    ></i>
+
+                </button>
+
+            </header>
+
+            <div class="modal-consulta__body">
+
+                <section class="modal-resumen-grid">
+
+                    <article class="modal-resumen-card">
+
+                        <span>
+                            Registros
+                        </span>
+
+                        <strong id="modalTotalRegistros">
+                            0
+                        </strong>
+
+                    </article>
+
+                    <article class="modal-resumen-card">
+
+                        <span id="modalResumenSecundarioTitulo">
+                            Total acumulado
+                        </span>
+
+                        <strong id="modalResumenSecundarioValor">
+                            0
+                        </strong>
+
+                    </article>
+
+                </section>
+
+                <section class="modal-detalle-tabla">
+
+                    <header class="modal-detalle-tabla__header">
+
+                        <div>
+
+                            <h3>
+                                Relación de registros
+                            </h3>
+
+                            <p>
+                                Información correspondiente a la categoría seleccionada.
+                            </p>
+
+                        </div>
+
+                        <span id="modalContadorDetalle">
+                            0 registros
+                        </span>
+
+                    </header>
+
+                    <div class="table-scroll">
+
+                        <table
+                            id="tablaModalDetalle"
+                            class="tabla-consulta"
+                        >
+
+                            <thead>
+
+                                <tr id="cabeceraModalDetalle"></tr>
+
+                            </thead>
+
+                            <tbody id="cuerpoModalDetalle">
+
+                                <tr>
+
+                                    <td
+                                        colspan="8"
+                                        class="tabla-consulta__vacio"
+                                    >
+                                        Selecciona una categoría del gráfico.
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CHART.JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"
+    ></script>
+
+    <!-- ETIQUETAS DE GRÁFICOS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"
+    ></script>
+
+    <!-- JAVASCRIPT -->
+     <script
+
+        type="module"
+
+        src="../backend/proteccion.js"
+
+    ></script>
+    <script
+        type="module"
+        src="./consulta.js"
+    ></script>
+
+</body>
+
+</html>

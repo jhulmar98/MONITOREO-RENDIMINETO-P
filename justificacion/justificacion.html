@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <!-- ===================================================== -->
+    <!-- META -->
+    <!-- ===================================================== -->
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- ===================================================== -->
+    <!-- TÍTULO -->
+    <!-- ===================================================== -->
+    <title>
+        Sistema de Monitoreo de Papeletas
+    </title>
+
+    <!-- ===================================================== -->
+    <!-- FONT AWESOME -->
+    <!-- ===================================================== -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+    <!-- ===================================================== -->
+    <!-- CSS -->
+    <!-- ===================================================== -->
+    <link
+        rel="stylesheet"
+        href="justificacion.css"
+    >
+
+    <!-- ===================================================== -->
+    <!-- CHART.JS -->
+    <!-- ===================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <!-- ===================================================== -->
+    <!-- LOADING -->
+    <!-- ===================================================== -->
+    <div
+        id="loadingSistema"
+        class="loading-overlay"
+    >
+
+        <div class="loading-box">
+
+            <div class="loading-spinner"></div>
+
+            <h2 id="loadingTitulo">
+                Cargando sistema...
+            </h2>
+
+            <p id="loadingTexto">
+                Espere un momento
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+    <header class="top-header">
+
+        <div class="top-header__content">
+
+            <!-- ============================= -->
+            <!-- REGRESAR -->
+            <!-- ============================= -->
+            <a
+                href="../index.html"
+                class="btn-regresar"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Regresar
+
+            </a>
+
+
+            <!-- ============================= -->
+            <!-- TÍTULO -->
+            <!-- ============================= -->
+            <div class="top-header__title">
+
+                <h1>
+                    SISTEMA DE MONITOREO DE PAPELETAS
+                </h1>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- ESTADO -->
+            <!-- ============================= -->
+            <div class="header-status">
+
+                <span class="status-dot"></span>
+
+                Sistema Activo
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ===================================================== -->
+    <main class="page-container">
+
+
+        <!-- ================================================= -->
+        <!-- FILTROS -->
+        <!-- ================================================= -->
+        <section class="panel panel-filtros">
+
+            <!-- ============================= -->
+            <!-- CABECERA -->
+            <!-- ============================= -->
+            <div class="panel__header panel__header--filtros">
+
+                <div>
+
+                    <h2>
+                        Filtros de Consulta
+                    </h2>
+
+                    <p class="panel__subtitle">
+                        Los filtros se actualizan según las selecciones anteriores
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnLimpiarFiltros"
+                    class="btn-limpiar-filtros"
+                >
+
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+
+                    Limpiar filtros
+
+                </button>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- GRID DE FILTROS -->
+            <!-- ================================================= -->
+            <div class="filtros-grid filtros-grid--avanzado">
+
+
+                <!-- ================================================= -->
+                <!-- MES -->
+                <!-- ================================================= -->
+                <div
+                    class="campo campo-multiselect"
+                    data-filter="mes"
+                >
+
+                    <label>
+                        Mes
+                    </label>
+
+                    <div
+                        class="multiselect"
+                        id="multiselectMes"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnFiltroMes"
+                            class="multiselect__button"
+                            aria-expanded="false"
+                        >
+
+                            <span class="multiselect__button-content">
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <span
+                                    id="textoFiltroMes"
+                                    class="multiselect__text"
+                                >
+                                    Todos los meses
+                                </span>
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down multiselect__arrow"></i>
+
+                        </button>
+
+
+                        <div
+                            id="menuFiltroMes"
+                            class="multiselect__menu"
+                        >
+
+                            <div class="multiselect__search">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input
+                                    type="text"
+                                    id="buscarMes"
+                                    placeholder="Buscar mes..."
+                                    autocomplete="off"
+                                >
+
+                            </div>
+
+
+                            <label class="multiselect__option multiselect__option--all">
+
+                                <input
+                                    type="checkbox"
+                                    id="seleccionarTodosMes"
+                                    value="TODOS"
+                                >
+
+                                <span class="checkbox-custom"></span>
+
+                                <span>
+                                    Seleccionar todos
+                                </span>
+
+                            </label>
+
+
+                            <div
+                                id="opcionesMes"
+                                class="multiselect__options"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- TIPO DE PAPELETA -->
+                <!-- ================================================= -->
+                <div
+                    class="campo campo-multiselect"
+                    data-filter="tipo"
+                >
+
+                    <label>
+                        Tipo de papeleta
+                    </label>
+
+                    <div
+                        class="multiselect"
+                        id="multiselectTipo"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnFiltroTipo"
+                            class="multiselect__button"
+                            aria-expanded="false"
+                        >
+
+                            <span class="multiselect__button-content">
+
+                                <i class="fa-solid fa-file-circle-exclamation"></i>
+
+                                <span
+                                    id="textoFiltroTipo"
+                                    class="multiselect__text"
+                                >
+                                    Todos los tipos
+                                </span>
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down multiselect__arrow"></i>
+
+                        </button>
+
+
+                        <div
+                            id="menuFiltroTipo"
+                            class="multiselect__menu"
+                        >
+
+                            <div class="multiselect__search">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input
+                                    type="text"
+                                    id="buscarTipo"
+                                    placeholder="Buscar tipo..."
+                                    autocomplete="off"
+                                >
+
+                            </div>
+
+
+                            <label class="multiselect__option multiselect__option--all">
+
+                                <input
+                                    type="checkbox"
+                                    id="seleccionarTodosTipo"
+                                    value="TODOS"
+                                >
+
+                                <span class="checkbox-custom"></span>
+
+                                <span>
+                                    Seleccionar todos
+                                </span>
+
+                            </label>
+
+
+                            <div
+                                id="opcionesTipo"
+                                class="multiselect__options"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- MOTIVO -->
+                <!-- ================================================= -->
+                <div
+                    class="campo campo-multiselect"
+                    data-filter="motivo"
+                >
+
+                    <label>
+                        Motivo de papeleta
+                    </label>
+
+                    <div
+                        class="multiselect"
+                        id="multiselectMotivo"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnFiltroMotivo"
+                            class="multiselect__button"
+                            aria-expanded="false"
+                        >
+
+                            <span class="multiselect__button-content">
+
+                                <i class="fa-solid fa-list-check"></i>
+
+                                <span
+                                    id="textoFiltroMotivo"
+                                    class="multiselect__text"
+                                >
+                                    Todos los motivos
+                                </span>
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down multiselect__arrow"></i>
+
+                        </button>
+
+
+                        <div
+                            id="menuFiltroMotivo"
+                            class="multiselect__menu"
+                        >
+
+                            <div class="multiselect__search">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input
+                                    type="text"
+                                    id="buscarMotivo"
+                                    placeholder="Buscar motivo..."
+                                    autocomplete="off"
+                                >
+
+                            </div>
+
+
+                            <label class="multiselect__option multiselect__option--all">
+
+                                <input
+                                    type="checkbox"
+                                    id="seleccionarTodosMotivo"
+                                    value="TODOS"
+                                >
+
+                                <span class="checkbox-custom"></span>
+
+                                <span>
+                                    Seleccionar todos
+                                </span>
+
+                            </label>
+
+
+                            <div
+                                id="opcionesMotivo"
+                                class="multiselect__options"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- OBSERVACIONES -->
+                <!-- ================================================= -->
+                <div
+                    class="campo campo-multiselect"
+                    data-filter="observacion"
+                >
+
+                    <label>
+                        Observaciones
+                    </label>
+
+                    <div
+                        class="multiselect"
+                        id="multiselectObservacion"
+                    >
+
+                        <button
+                            type="button"
+                            id="btnFiltroObservacion"
+                            class="multiselect__button"
+                            aria-expanded="false"
+                        >
+
+                            <span class="multiselect__button-content">
+
+                                <i class="fa-regular fa-comment-dots"></i>
+
+                                <span
+                                    id="textoFiltroObservacion"
+                                    class="multiselect__text"
+                                >
+                                    Todas las observaciones
+                                </span>
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down multiselect__arrow"></i>
+
+                        </button>
+
+
+                        <div
+                            id="menuFiltroObservacion"
+                            class="multiselect__menu"
+                        >
+
+                            <div class="multiselect__search">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input
+                                    type="text"
+                                    id="buscarObservacion"
+                                    placeholder="Buscar observación..."
+                                    autocomplete="off"
+                                >
+
+                            </div>
+
+
+                            <label class="multiselect__option multiselect__option--all">
+
+                                <input
+                                    type="checkbox"
+                                    id="seleccionarTodosObservacion"
+                                    value="TODOS"
+                                >
+
+                                <span class="checkbox-custom"></span>
+
+                                <span>
+                                    Seleccionar todos
+                                </span>
+
+                            </label>
+
+
+                            <div
+                                id="opcionesObservacion"
+                                class="multiselect__options"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- BUSCADOR DE PERSONAL -->
+                <!-- ================================================= -->
+                <div class="campo campo-busqueda-nombre">
+
+                    <label for="filtroNombre">
+                        Buscar personal
+                    </label>
+
+                    <div
+                        id="buscadorPersonal"
+                        class="buscador-personal"
+                    >
+
+                        <!-- ========================================= -->
+                        <!-- INPUT -->
+                        <!-- ========================================= -->
+                        <div class="input-icon-wrapper">
+
+                            <i class="fa-solid fa-user-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="filtroNombre"
+                                class="input-filtro"
+                                placeholder="Buscar por nombre o DNI..."
+                                autocomplete="off"
+                                spellcheck="false"
+                                aria-autocomplete="list"
+                                aria-controls="sugerenciasPersonal"
+                                aria-expanded="false"
+                            >
+
+                            <button
+                                type="button"
+                                id="btnLimpiarNombre"
+                                class="btn-limpiar-input"
+                                aria-label="Limpiar búsqueda"
+                                title="Limpiar búsqueda"
+                            >
+
+                                <i class="fa-solid fa-xmark"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- ========================================= -->
+                        <!-- SUGERENCIAS -->
+                        <!-- ========================================= -->
+                        <div
+                            id="sugerenciasPersonal"
+                            class="sugerencias-personal"
+                            role="listbox"
+                            aria-label="Sugerencias de personal"
+                            hidden
+                        >
+
+                            <div class="sugerencias-personal__header">
+
+                                <span>
+
+                                    <i class="fa-solid fa-users"></i>
+
+                                    Coincidencias encontradas
+
+                                </span>
+
+                                <small id="contadorSugerenciasPersonal">
+                                    0 resultados
+                                </small>
+
+                            </div>
+
+
+                            <div
+                                id="listaSugerenciasPersonal"
+                                class="sugerencias-personal__lista"
+                            ></div>
+
+
+                            <div
+                                id="sugerenciasPersonalVacio"
+                                class="sugerencias-personal__vacio"
+                                hidden
+                            >
+
+                                <i class="fa-regular fa-user"></i>
+
+                                <span>
+                                    No se encontraron nombres ni DNI coincidentes.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- RESUMEN DE FILTROS -->
+            <!-- ================================================= -->
+            <div
+                id="resumenFiltros"
+                class="filtros-resumen"
+            >
+
+                <div class="filtros-resumen__info">
+
+                    <i class="fa-solid fa-filter"></i>
+
+                    <span id="textoResumenFiltros">
+                        Mostrando todos los registros
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="chipsFiltros"
+                    class="filtros-chips"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- KPI -->
+        <!-- ================================================= -->
+        <section class="kpi-grid">
+
+
+            <!-- TOTAL -->
+            <article class="kpi-card">
+
+                <div class="kpi-card__icon">
+
+                    <i class="fa-solid fa-file-circle-exclamation"></i>
+
+                </div>
+
+                <div class="kpi-card__content">
+
+                    <h3>
+                        Total de Papeletas
+                    </h3>
+
+                    <h4 id="kpiTotal">
+                        0
+                    </h4>
+
+                </div>
+
+            </article>
+
+
+            <!-- PERSONAS -->
+            <article class="kpi-card">
+
+                <div class="kpi-card__icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <div class="kpi-card__content">
+
+                    <h3>
+                        Personas Sancionadas
+                    </h3>
+
+                    <h4 id="kpiPersonas">
+                        0
+                    </h4>
+
+                </div>
+
+            </article>
+
+
+            <!-- MOTIVO MÁS FRECUENTE -->
+            <article class="kpi-card">
+
+                <div class="kpi-card__icon">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                </div>
+
+                <div class="kpi-card__content">
+
+                    <h3>
+                        Motivo Más Frecuente
+                    </h3>
+
+                    <h4 id="kpiUnidad">
+                        -
+                    </h4>
+
+                </div>
+
+            </article>
+
+
+            <!-- REINCIDENTES -->
+            <article class="kpi-card kpi-card--alert">
+
+                <div class="kpi-card__icon">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                </div>
+
+                <div class="kpi-card__content">
+
+                    <h3>
+                        Reincidentes Críticos
+                    </h3>
+
+                    <h4 id="kpiReincidentes">
+                        0
+                    </h4>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- COMPORTAMIENTO POR MESES -->
+        <!-- ================================================= -->
+        <section class="charts-grid charts-grid--principal">
+
+            <article class="panel chart-panel chart-panel--wide">
+
+                <div class="panel__header">
+
+                    <div>
+
+                        <h2>
+                            Comportamiento de Papeletas por Meses
+                        </h2>
+
+                        <p class="panel__subtitle">
+                            Evolución mensual según los filtros seleccionados
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-help">
+
+                        <i class="fa-regular fa-hand-pointer"></i>
+
+                        Haga clic en un punto para ver el detalle
+
+                    </span>
+
+                </div>
+
+
+                <div class="chart-wrapper chart-wrapper--line">
+
+                    <canvas id="graficoMeses"></canvas>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- TENDENCIA POR DÍA -->
+        <!-- ================================================= -->
+        <section class="charts-grid charts-grid--principal">
+
+            <article class="panel chart-panel chart-panel--wide">
+
+                <div class="panel__header">
+
+                    <div>
+
+                        <h2>
+                            Tendencia de Papeletas por Día
+                        </h2>
+
+                        <p class="panel__subtitle">
+                            Distribución diaria de las papeletas registradas
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-help">
+
+                        <i class="fa-regular fa-hand-pointer"></i>
+
+                        Haga clic en una barra para ver el detalle
+
+                    </span>
+
+                </div>
+
+
+                <div class="chart-wrapper chart-wrapper--daily">
+
+                    <canvas id="graficoDias"></canvas>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- GRÁFICOS DE DETALLE -->
+        <!-- ================================================= -->
+        <section class="charts-grid charts-grid--detalle">
+
+
+            <!-- ================================================= -->
+            <!-- PERSONAL -->
+            <!-- ================================================= -->
+            <article class="panel chart-panel chart-panel--equal">
+
+                <div class="panel__header">
+
+                    <div>
+
+                        <h2>
+                            Personal con Más Papeletas
+                        </h2>
+
+                        <p class="panel__subtitle">
+                            Personal ordenado de mayor a menor cantidad
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-help chart-help--compact">
+
+                        <i class="fa-regular fa-hand-pointer"></i>
+
+                        Ver detalle
+
+                    </span>
+
+                </div>
+
+
+                <div class="chart-card-body">
+
+                    <div class="chart-scroll-container">
+
+                        <div
+                            id="contenidoGraficoPersonas"
+                            class="chart-scroll-content"
+                        >
+
+                            <canvas id="personaspapeletas"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- ================================================= -->
+            <!-- MOTIVOS -->
+            <!-- ================================================= -->
+            <article class="panel chart-panel chart-panel--equal">
+
+                <div class="panel__header">
+
+                    <div>
+
+                        <h2>
+                            Motivos de Papeletas
+                        </h2>
+
+                        <p class="panel__subtitle">
+                            Motivos ordenados por frecuencia
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-help chart-help--compact">
+
+                        <i class="fa-regular fa-hand-pointer"></i>
+
+                        Ver detalle
+
+                    </span>
+
+                </div>
+
+
+                <div class="chart-card-body">
+
+                    <div class="chart-scroll-container">
+
+                        <div
+                            id="contenidoGraficoMotivos"
+                            class="chart-scroll-content"
+                        >
+
+                            <canvas id="motivospapeletas"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- ================================================= -->
+            <!-- TIPOS -->
+            <!-- ================================================= -->
+            <article class="panel chart-panel chart-panel--equal">
+
+                <div class="panel__header">
+
+                    <div>
+
+                        <h2>
+                            Tipo de Papeleta
+                        </h2>
+
+                        <p class="panel__subtitle">
+                            Tipos ordenados por cantidad
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-help chart-help--compact">
+
+                        <i class="fa-regular fa-hand-pointer"></i>
+
+                        Ver detalle
+
+                    </span>
+
+                </div>
+
+
+                <div class="chart-card-body">
+
+                    <div class="chart-scroll-container">
+
+                        <div
+                            id="contenidoGraficoTipos"
+                            class="chart-scroll-content"
+                        >
+
+                            <canvas id="tipopapeletas"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- ================================================= -->
+            <!-- OBSERVACIONES -->
+            <!-- ================================================= -->
+            <article class="panel chart-panel chart-panel--equal">
+
+                <div class="panel__header">
+
+                    <div>
+
+                        <h2>
+                            Observaciones
+                        </h2>
+
+                        <p class="panel__subtitle">
+                            Observaciones ordenadas por frecuencia
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-help chart-help--compact">
+
+                        <i class="fa-regular fa-hand-pointer"></i>
+
+                        Ver detalle
+
+                    </span>
+
+                </div>
+
+
+                <div class="chart-card-body">
+
+                    <div class="chart-scroll-container">
+
+                        <div
+                            id="contenidoGraficoObservaciones"
+                            class="chart-scroll-content"
+                        >
+
+                            <canvas id="comentarios"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- ===================================================== -->
+    <!-- MODAL DE DETALLE CRONOLÓGICO -->
+    <!-- ===================================================== -->
+    <div
+        id="modalDetalle"
+        class="modal-overlay"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalDetalleTitulo"
+    >
+
+        <div class="modal-detalle modal-detalle--cronologico">
+
+
+            <!-- ================================================= -->
+            <!-- CABECERA -->
+            <!-- ================================================= -->
+            <header class="modal-detalle__header">
+
+                <div class="modal-detalle__title-group">
+
+                    <div class="modal-detalle__icon">
+
+                        <i
+                            id="modalDetalleIcono"
+                            class="fa-solid fa-chart-column"
+                        ></i>
+
+                    </div>
+
+
+                    <div class="modal-detalle__heading">
+
+                        <span
+                            id="modalDetalleCategoria"
+                            class="modal-detalle__category"
+                        >
+                            Detalle del gráfico
+                        </span>
+
+                        <h2 id="modalDetalleTitulo">
+                            Información seleccionada
+                        </h2>
+
+                        <p
+                            id="modalDetalleSeleccion"
+                            class="modal-detalle__selection"
+                        >
+                            -
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnCerrarModalDetalle"
+                    class="modal-detalle__close"
+                    aria-label="Cerrar detalle"
+                    title="Cerrar"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </header>
+
+
+            <!-- ================================================= -->
+            <!-- RESUMEN -->
+            <!-- ================================================= -->
+            <section class="modal-detalle__summary">
+
+                <article class="modal-summary-card">
+
+                    <div class="modal-summary-card__icon">
+
+                        <i class="fa-solid fa-file-circle-exclamation"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="modal-summary-card__label">
+                            Total de papeletas
+                        </span>
+
+                        <strong id="modalDetalleTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </article>
+
+
+                <article class="modal-summary-card">
+
+                    <div class="modal-summary-card__icon">
+
+                        <i class="fa-solid fa-users"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="modal-summary-card__label">
+                            Personas involucradas
+                        </span>
+
+                        <strong id="modalDetallePersonas">
+                            0
+                        </strong>
+
+                    </div>
+
+                </article>
+
+
+                <article class="modal-summary-card">
+
+                    <div class="modal-summary-card__icon">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span class="modal-summary-card__label">
+                            Periodo encontrado
+                        </span>
+
+                        <strong id="modalDetallePeriodo">
+                            -
+                        </strong>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- HERRAMIENTAS -->
+            <!-- ================================================= -->
+            <section class="modal-detalle__tools">
+
+                <div class="modal-search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="search"
+                        id="buscarDetalleModal"
+                        placeholder="Buscar por nombre, DNI, tipo, motivo u observación..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <div class="modal-order-info">
+
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+
+                    <span>
+                        Orden cronológico
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="contadorDetalleModal"
+                    class="modal-result-count"
+                >
+                    0 registros
+                </div>
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- CUADRO ÚNICO -->
+            <!-- ================================================= -->
+            <section class="modal-detalle__body">
+
+                <div class="detalle-cronologico-container">
+
+                    <!-- ========================================= -->
+                    <!-- CABECERA -->
+                    <!-- ========================================= -->
+                    <div class="detalle-cronologico-header">
+
+                        <div class="detalle-cronologico-header__title">
+
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+
+                            <div>
+
+                                <h3>
+                                    Historial cronológico de papeletas
+                                </h3>
+
+                                <p>
+                                    Registros ordenados desde la fecha más reciente
+                                    hasta la más antigua
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ========================================= -->
+                    <!-- LISTA -->
+                    <!-- ========================================= -->
+                    <div
+                        id="listaDetalleModal"
+                        class="detalle-cronologico-lista"
+                    >
+
+                        <!-- REGISTROS GENERADOS POR JAVASCRIPT -->
+
+                    </div>
+
+
+                    <!-- ========================================= -->
+                    <!-- ESTADO VACÍO -->
+                    <!-- ========================================= -->
+                    <div
+                        id="modalDetalleVacio"
+                        class="modal-empty"
+                        hidden
+                    >
+
+                        <div class="modal-empty__icon">
+
+                            <i class="fa-regular fa-folder-open"></i>
+
+                        </div>
+
+                        <h3>
+                            No se encontraron registros
+                        </h3>
+
+                        <p>
+                            No existe información asociada con la selección realizada.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PLANTILLA DE SUGERENCIA DE PERSONAL -->
+    <!-- ===================================================== -->
+    <template id="templateSugerenciaPersonal">
+
+        <button
+            type="button"
+            class="sugerencia-personal"
+            role="option"
+        >
+
+            <div class="sugerencia-personal__avatar">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+
+            <div class="sugerencia-personal__contenido">
+
+                <strong class="sugerencia-personal__nombre">
+                    Apellidos y nombres
+                </strong>
+
+                <span class="sugerencia-personal__dni">
+                    DNI: 00000000
+                </span>
+
+            </div>
+
+
+            <i class="fa-solid fa-chevron-right sugerencia-personal__arrow"></i>
+
+        </button>
+
+    </template>
+
+
+    <!-- ===================================================== -->
+    <!-- PLANTILLA DE REGISTRO CRONOLÓGICO -->
+    <!-- ===================================================== -->
+    <template id="templateDetalleCronologico">
+
+        <article class="detalle-cronologico-item">
+
+            <!-- ========================================= -->
+            <!-- FECHA -->
+            <!-- ========================================= -->
+            <div class="detalle-cronologico-item__fecha">
+
+                <span class="detalle-cronologico-item__dia">
+                    01
+                </span>
+
+                <span class="detalle-cronologico-item__mes">
+                    ENE
+                </span>
+
+                <span class="detalle-cronologico-item__anio">
+                    2026
+                </span>
+
+            </div>
+
+
+            <!-- ========================================= -->
+            <!-- CONTENIDO -->
+            <!-- ========================================= -->
+            <div class="detalle-cronologico-item__contenido">
+
+                <div class="detalle-cronologico-item__cabecera">
+
+                    <div>
+
+                        <h4 class="detalle-cronologico-item__nombre">
+                            Apellidos y nombres
+                        </h4>
+
+                        <p class="detalle-cronologico-item__dni">
+                            DNI: 00000000
+                        </p>
+
+                    </div>
+
+
+                    <span class="detalle-cronologico-item__tipo">
+                        Tipo de papeleta
+                    </span>
+
+                </div>
+
+
+                <div class="detalle-cronologico-item__grid">
+
+                    <div class="detalle-cronologico-data">
+
+                        <span class="detalle-cronologico-data__label">
+                            Mes
+                        </span>
+
+                        <strong class="detalle-cronologico-data__mes">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detalle-cronologico-data">
+
+                        <span class="detalle-cronologico-data__label">
+                            Unidad orgánica
+                        </span>
+
+                        <strong class="detalle-cronologico-data__unidad">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detalle-cronologico-data">
+
+                        <span class="detalle-cronologico-data__label">
+                            Fecha de inicio
+                        </span>
+
+                        <strong class="detalle-cronologico-data__inicio">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detalle-cronologico-data">
+
+                        <span class="detalle-cronologico-data__label">
+                            Fecha de fin
+                        </span>
+
+                        <strong class="detalle-cronologico-data__fin">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detalle-cronologico-data detalle-cronologico-data--wide">
+
+                        <span class="detalle-cronologico-data__label">
+                            Motivo
+                        </span>
+
+                        <strong class="detalle-cronologico-data__motivo">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detalle-cronologico-data detalle-cronologico-data--wide">
+
+                        <span class="detalle-cronologico-data__label">
+                            Observación
+                        </span>
+
+                        <strong class="detalle-cronologico-data__observacion">
+                            Sin observación
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </template>
+
+
+    <!-- ===================================================== -->
+    <!-- CHART DATA LABELS -->
+    <!-- ===================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+    <!-- ===================================================== -->
+    <!-- SHEETJS -->
+    <!-- ===================================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+    <!-- ===================================================== -->
+    <!-- DASHBOARD -->
+    <!-- ===================================================== -->
+    <script
+
+        type="module"
+
+        src="../backend/proteccion.js"
+
+    ></script>
+    <script
+        type="module"
+        src="dashboard.js"
+    ></script>
+
+</body>
+
+</html>

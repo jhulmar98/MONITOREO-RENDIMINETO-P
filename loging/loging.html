@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Sistema de Monitoreo</title>
+
+<link rel="stylesheet" href="loging.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="login-header">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h2>Sistema de Monitoreo</h2>
+            <span>Acceso restringido</span>
+        </div>
+
+        <form id="formLogin">
+
+            <div class="input-group">
+                <i class="fa fa-envelope"></i>
+                <input type="email" id="email" placeholder="Correo" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fa fa-lock"></i>
+                <input type="password" id="password" placeholder="Contraseña" required>
+            </div>
+
+            <button type="submit" id="btnLogin">
+                <i class="fa fa-right-to-bracket"></i>
+                Iniciar Sesión
+            </button>
+
+            <div id="error" class="error"></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script type="module" src="loging.js"></script>
+
+</body>
+</html>
