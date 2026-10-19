@@ -1,0 +1,2265 @@
+
+/* =========================================================
+   FALTAS LOCADORES
+   DISEÑO INSTITUCIONAL
+   VERSIÓN CON REPORTES Y GRÁFICOS DE DESGLOSE
+========================================================= */
+
+
+/* =========================================================
+   1. VARIABLES INSTITUCIONALES
+========================================================= */
+
+:root {
+
+    --primary: #556B2F;
+    --primary-dark: #3D4D1F;
+    --primary-light: #738542;
+    --primary-soft: rgba(85, 107, 47, 0.10);
+
+    --accent: #C8D400;
+
+    --bg: #F5F7F1;
+    --bg-soft: #EEF3E7;
+    --card: #FFFFFF;
+
+    --text: #1E293B;
+    --text-soft: #64748B;
+    --text-muted: #94A3B8;
+
+    --border: #DBE4D2;
+    --border-soft: #EDF1E7;
+
+    --danger: #DC2626;
+    --danger-dark: #B91C1C;
+    --danger-soft: #FEE2E2;
+
+    --info: #2563EB;
+    --info-dark: #1D4ED8;
+    --info-soft: #DBEAFE;
+
+    --success: #16A34A;
+
+    --shadow-soft:
+        0 10px 25px rgba(0, 0, 0, 0.06);
+
+    --shadow-medium:
+        0 15px 40px rgba(0, 0, 0, 0.10);
+
+    --shadow-strong:
+        0 28px 75px rgba(0, 0, 0, 0.28);
+
+    --radius-lg: 22px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+
+    --transition: 0.25s ease;
+
+}
+
+
+/* =========================================================
+   2. CONFIGURACIÓN GENERAL
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(200, 212, 0, 0.12),
+            transparent 32%
+        ),
+        linear-gradient(
+            180deg,
+            #F8FAF5,
+            #EEF3E7
+        );
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   3. SCROLL INSTITUCIONAL
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #E8EDE2;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+    background:
+        linear-gradient(
+            180deg,
+            #556B2F,
+            #738542
+        );
+
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3D4D1F;
+}
+
+
+/* =========================================================
+   4. HEADER PRINCIPAL
+========================================================= */
+
+.top-header {
+    width: 100%;
+    min-height: 78px;
+    padding: 14px 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #556B2F,
+            #3D4D1F
+        );
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================================
+   5. TÍTULO Y BOTÓN REGRESAR
+========================================================= */
+
+.top-header__left {
+    min-width: 270px;
+
+    display: flex;
+    align-items: center;
+    gap: 17px;
+
+    flex: 0 0 auto;
+}
+
+.titulo-header {
+    min-width: 0;
+}
+
+.titulo-header h1 {
+    color: #FFFFFF;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: 0.35px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.titulo-header p {
+    margin-top: 6px;
+    color: rgba(255, 255, 255, 0.80);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.btn-regresar {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 0.95rem;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.28);
+
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.13);
+
+    backdrop-filter: blur(12px);
+    transition: var(--transition);
+}
+
+.btn-regresar span {
+    display: none;
+}
+
+.btn-regresar:hover {
+    color: var(--primary-dark);
+    background: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   6. FILTROS DEL HEADER
+========================================================= */
+
+.top-header__right {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 13px;
+}
+
+.top-header__right--simple {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 6px;
+    scrollbar-gutter: stable;
+}
+
+.top-header__right--simple::-webkit-scrollbar {
+    height: 6px;
+}
+
+.top-header__right--simple::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.top-header__right--simple::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.48);
+    border-radius: 999px;
+}
+
+
+/* =========================================================
+   7. BUSCADOR POR NOMBRE
+========================================================= */
+
+.filtro-fecha {
+    height: 44px;
+    padding: 0 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    flex: 0 0 auto;
+
+    background: rgba(255, 255, 255, 0.13);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 14px;
+    transition: var(--transition);
+}
+
+.filtro-fecha:hover {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+.filtro-fecha i {
+    color: #FFFFFF;
+    font-size: 0.95rem;
+}
+
+.filtro-fecha input {
+    width: 100%;
+    min-width: 0;
+
+    outline: none;
+    border: none;
+    background: transparent;
+
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.filtro-fecha input::placeholder {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.filtro-fecha input::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+.filtro-fecha--nombre {
+    width: 275px;
+    min-width: 275px;
+}
+
+
+/* =========================================================
+   8. FILTROS MES Y SECTOR
+========================================================= */
+
+.filtro-check {
+    width: 190px;
+    min-width: 190px;
+    height: 44px;
+
+    flex: 0 0 auto;
+    position: relative;
+}
+
+.filtro-check summary {
+    height: 44px;
+    padding: 0 36px 0 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    position: relative;
+    list-style: none;
+
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    font-weight: 900;
+
+    background: rgba(255, 255, 255, 0.13);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 14px;
+    cursor: pointer;
+    user-select: none;
+    overflow: hidden;
+
+    transition: var(--transition);
+}
+
+.filtro-check summary::-webkit-details-marker {
+    display: none;
+}
+
+.filtro-check summary:hover {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+.filtro-check summary i {
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+}
+
+.filtro-check summary span {
+    display: block;
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.filtro-check summary::after {
+    content: "\f107";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+
+    position: absolute;
+    right: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+    transition: 0.22s ease;
+}
+
+.filtro-check[open] summary::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.filtro-check__panel {
+    display: none;
+}
+
+
+/* =========================================================
+   9. PANEL FLOTANTE
+========================================================= */
+
+.panel-filtro-flotante,
+#panelFiltroFlotante {
+    position: fixed;
+    z-index: 20000;
+
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    box-shadow:
+        0 22px 50px rgba(15, 23, 42, 0.24);
+
+    animation: filtroEntrada 0.18s ease;
+}
+
+.check-option {
+    width: 100%;
+    padding: 11px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 800;
+
+    border-radius: 11px;
+    cursor: pointer;
+
+    transition: 0.18s ease;
+}
+
+.check-option:hover {
+    background: var(--bg-soft);
+}
+
+.check-option input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+@keyframes filtroEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   10. BOTÓN LIMPIAR
+========================================================= */
+
+.btn-filtro {
+    height: 44px;
+    padding: 0 19px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    flex: 0 0 auto;
+    border: none;
+    border-radius: 14px;
+
+    font-size: 0.84rem;
+    font-weight: 900;
+    transition: var(--transition);
+}
+
+.btn-filtro--reset {
+    color: var(--primary-dark);
+    background: #FFFFFF;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.10);
+}
+
+.btn-filtro--reset:hover {
+    background: #EEF3E7;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   11. CONTENEDOR PRINCIPAL
+========================================================= */
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+
+    padding: 25px 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+
+/* =========================================================
+   12. TARJETAS KPI
+========================================================= */
+
+.kpi-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.kpi-grid--locadores {
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+}
+
+.kpi-card {
+    min-width: 0;
+    min-height: 135px;
+    padding: 22px 26px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #FBFCFA
+        );
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+
+    transition: var(--transition);
+}
+
+.kpi-card::before {
+    content: "";
+
+    position: absolute;
+    width: 115px;
+    height: 115px;
+
+    right: -42px;
+    top: -45px;
+
+    background: rgba(85, 107, 47, 0.045);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.kpi-card::after {
+    content: "";
+
+    position: absolute;
+    width: 90px;
+    height: 90px;
+
+    right: -60px;
+    bottom: -60px;
+
+    background: rgba(85, 107, 47, 0.04);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
+}
+
+
+/* =========================================================
+   13. ÍCONOS KPI
+========================================================= */
+
+.kpi-icon {
+    width: 65px;
+    min-width: 65px;
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    z-index: 1;
+
+    color: #FFFFFF;
+    font-size: 1.6rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            #556B2F,
+            #738542
+        );
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 10px 25px rgba(85, 107, 47, 0.28);
+}
+
+.kpi-content {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    position: relative;
+    z-index: 1;
+}
+
+.kpi-content h3 {
+    margin-bottom: 10px;
+
+    color: #4B5563;
+    font-size: 0.78rem;
+    font-weight: 900;
+    line-height: 1.4;
+    letter-spacing: 0.2px;
+
+    text-transform: uppercase;
+}
+
+.kpi-content h2 {
+    color: var(--primary);
+    font-size: 2.15rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+
+/* =========================================================
+   14. CANTIDAD | PORCENTAJE
+========================================================= */
+
+.kpi-valores-combinados {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.kpi-valores-combinados .cantidad {
+    font-size: 2.15rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.kpi-valores-combinados .separador {
+    color: #CBD5E1;
+    font-size: 1.9rem;
+    font-weight: 400;
+}
+
+.kpi-valores-combinados .porcentaje {
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+
+/* =========================================================
+   15. KPI PERSONAL CON FALTAS
+========================================================= */
+
+.kpi-card--danger .kpi-icon {
+    background:
+        linear-gradient(
+            135deg,
+            #DC2626,
+            #B91C1C
+        );
+
+    box-shadow:
+        0 10px 25px rgba(220, 38, 38, 0.25);
+}
+
+.kpi-card--danger .cantidad,
+.kpi-card--danger .porcentaje {
+    color: var(--danger);
+}
+
+
+/* =========================================================
+   16. KPI DESCANSOS MÉDICOS
+========================================================= */
+
+.kpi-card--info .kpi-icon {
+    background:
+        linear-gradient(
+            135deg,
+            #2563EB,
+            #1D4ED8
+        );
+
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.25);
+}
+
+.kpi-card--info .cantidad,
+.kpi-card--info .porcentaje {
+    color: var(--info);
+}
+
+
+/* =========================================================
+   17. DISTRIBUCIÓN DE GRÁFICOS
+========================================================= */
+
+.charts-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   18. PANELES
+========================================================= */
+
+.panel {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #FBFCFA
+        );
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+
+    transition: var(--transition);
+}
+
+.panel:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+
+/* =========================================================
+   19. ENCABEZADOS DE GRÁFICOS
+========================================================= */
+
+.panel-header {
+    min-height: 87px;
+    padding: 20px 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #FBFCFA
+        );
+
+    border-bottom:
+        1px solid var(--border-soft);
+}
+
+.panel-header--between {
+    justify-content: space-between;
+}
+
+.panel-header h2 {
+    color: #334155;
+    font-size: 1.06rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    line-height: 1.35;
+}
+
+.panel-subtitle {
+    margin-top: 6px;
+
+    color: var(--text-soft);
+    font-size: 0.80rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   20. INDICADORES PEQUEÑOS
+========================================================= */
+
+.mini-filtro {
+    min-width: 95px;
+    padding: 11px 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    flex: 0 0 auto;
+
+    background: #F5F7F1;
+
+    border: 1px solid #E3EAD9;
+    border-radius: 13px;
+}
+
+.mini-filtro span {
+    color: var(--text-soft);
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.mini-filtro strong {
+    color: var(--primary);
+    font-size: 0.86rem;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   21. GRÁFICOS GENERALES
+========================================================= */
+
+.chart-container {
+    width: 100%;
+    height: 440px;
+    min-height: 440px;
+
+    position: relative;
+    padding: 22px;
+
+    background: #FFFFFF;
+}
+
+.chart-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.grafico-interactivo {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   22. FALTAS POR DÍA
+========================================================= */
+
+.panel-faltas-dia {
+    min-height: 530px;
+}
+
+.chart-container--dias {
+    height: 440px;
+    min-height: 440px;
+    padding: 30px 20px 15px;
+}
+
+
+/* =========================================================
+   23. FALTAS POR SECTOR
+========================================================= */
+
+.panel-faltas-sector {
+    min-height: 530px;
+}
+
+.chart-container--sector {
+    height: 440px;
+    min-height: 440px;
+    padding: 30px 20px 15px;
+}
+
+
+/* =========================================================
+   24. FALTAS Y DESCANSOS MÉDICOS
+========================================================= */
+
+.panel-distribucion {
+    min-height: 600px;
+}
+
+.chart-container--distribucion {
+    height: 460px;
+    min-height: 460px;
+
+    padding: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.distribucion-canvas-wrap {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    min-height: 0;
+
+    position: relative;
+}
+
+.distribucion-canvas-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* =========================================================
+   25. LEYENDA DEL GRÁFICO CIRCULAR
+========================================================= */
+
+.grafico-leyenda {
+    padding: 10px 20px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    flex-wrap: wrap;
+
+    background: #FFFFFF;
+}
+
+.leyenda-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #475569;
+    font-size: 0.80rem;
+    font-weight: 900;
+}
+
+.leyenda-color {
+    width: 15px;
+    height: 15px;
+
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.leyenda-color--faltas {
+    background: #DC2626;
+}
+
+.leyenda-color--descansos {
+    background: #2563EB;
+}
+
+
+/* =========================================================
+   26. RANKING DE FALTAS
+   10 REGISTROS VISIBLES
+========================================================= */
+
+.panel-ranking {
+    min-height: 0;
+}
+
+.chart-container--ranking,
+#contenedorRanking {
+    width: 100%;
+
+    height: 490px;
+    min-height: 0;
+    max-height: 490px;
+
+    padding: 18px 20px;
+
+    display: block;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+
+    background: #FFFFFF;
+}
+
+.ranking-canvas-wrap,
+#rankingCanvasWrap {
+    width: 100%;
+    min-height: 430px;
+    position: relative;
+}
+
+.ranking-canvas-wrap canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   27. MODALES DE REPORTES
+========================================================= */
+
+.modal-detalle {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+
+    padding: 22px;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-detalle__overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(8px);
+}
+
+.modal-detalle__box {
+    width: min(1150px, 96vw);
+    max-height: 90vh;
+
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #FFFFFF;
+    border-radius: 24px;
+
+    box-shadow: var(--shadow-strong);
+    overflow: hidden;
+
+    animation: modalEntrada 0.25s ease;
+}
+
+@keyframes modalEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   28. ENCABEZADO DE LOS MODALES
+========================================================= */
+
+.modal-detalle__header {
+    padding: 22px 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #556B2F,
+            #3D4D1F
+        );
+}
+
+.modal-detalle__header h2 {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+}
+
+.modal-detalle__header p {
+    margin-top: 7px;
+
+    color: rgba(255, 255, 255, 0.83);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.modal-detalle__close {
+    width: 43px;
+    min-width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.15);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 12px;
+
+    font-size: 1.05rem;
+    transition: var(--transition);
+}
+
+.modal-detalle__close:hover {
+    background: #FFFFFF;
+    color: var(--danger);
+    transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   29. CUERPO DE LOS MODALES
+========================================================= */
+
+.modal-detalle__body {
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+
+/* =========================================================
+   30. NUEVO GRÁFICO DE DESGLOSE
+
+   DÍA -> SECTOR
+   SECTOR -> DÍA
+========================================================= */
+
+#modalDesglose .modal-detalle__box {
+    width: min(1100px, 96vw);
+}
+
+#modalDesglose .modal-detalle__body {
+    gap: 24px;
+}
+
+.chart-container--desglose {
+    width: 100%;
+
+    height: 370px;
+    min-height: 370px;
+
+    padding: 25px 20px 18px;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #FBFCFA
+        );
+
+    border:
+        1px solid var(--border-soft);
+
+    border-radius: 16px;
+}
+
+.chart-container--desglose canvas {
+    display: block;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   31. SECCIONES DEL DESGLOSE
+========================================================= */
+
+#modalDesglose .detalle-historial {
+    gap: 15px;
+}
+
+#modalDesglose .detalle-historial h3 {
+    padding-bottom: 3px;
+}
+
+#modalDesglose .tabla-detalle-scroll {
+    max-height: 330px;
+}
+
+#modalDesglose #panelPersonasDesglose {
+    padding-top: 20px;
+
+    border-top:
+        1px solid var(--border-soft);
+}
+
+#modalDesglose #tituloPersonasDesglose {
+    color: var(--primary-dark);
+}
+
+
+/* =========================================================
+   32. TABLA RESUMEN DEL DESGLOSE
+========================================================= */
+
+#modalDesglose #tablaResumenDesglose td:first-child {
+    color: var(--primary-dark);
+    font-weight: 800;
+}
+
+#modalDesglose #tablaResumenDesglose td:nth-child(2) {
+    font-weight: 900;
+    font-size: 0.92rem;
+}
+
+#modalDesglose #tablaResumenDesglose td:last-child {
+    width: 130px;
+}
+
+
+/* =========================================================
+   33. LISTADO DE PERSONAS DEL DESGLOSE
+========================================================= */
+
+#modalDesglose #panelPersonasDesglose .detalle-table {
+    min-width: 900px;
+}
+
+#modalDesglose #tablaPersonasDesglose td:nth-child(2) {
+    min-width: 210px;
+
+    text-align: left;
+    color: var(--primary-dark);
+
+    font-weight: 800;
+}
+
+#modalDesglose #tablaPersonasDesglose td:last-child {
+    min-width: 90px;
+}
+
+
+/* =========================================================
+   34. INFORMACIÓN DEL REPORTE INDIVIDUAL
+
+   SOLO:
+   NOMBRE
+   SECTOR
+   FUNCIÓN
+========================================================= */
+
+.detalle-personal-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.detalle-campo {
+    min-width: 0;
+    padding: 17px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #F8FAF5
+        );
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.detalle-campo span {
+    color: var(--text-soft);
+
+    font-size: 0.73rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+.detalle-campo strong {
+    color: var(--primary-dark);
+
+    font-size: 0.89rem;
+    font-weight: 900;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   35. INDICADORES DEL REPORTE
+========================================================= */
+
+.detalle-resumen-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
+.detalle-resumen {
+    min-height: 110px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: 1px solid var(--border);
+    border-radius: 17px;
+}
+
+.detalle-resumen span {
+    font-size: 0.77rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.detalle-resumen strong {
+    font-size: 2.1rem;
+    font-weight: 900;
+}
+
+.detalle-resumen--danger {
+    color: #B91C1C;
+    background: #FEE2E2;
+    border-color: #FECACA;
+}
+
+.detalle-resumen--info {
+    color: #1D4ED8;
+    background: #DBEAFE;
+    border-color: #BFDBFE;
+}
+
+.detalle-resumen--total {
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    border-color: var(--border);
+}
+
+
+/* =========================================================
+   36. REPORTE DEL GRÁFICO CIRCULAR
+========================================================= */
+
+#modalDetalleGrafico .detalle-resumen-grid {
+    grid-template-columns:
+        minmax(180px, 270px);
+}
+
+
+/* =========================================================
+   37. HISTORIAL DE INCIDENCIAS
+========================================================= */
+
+.detalle-historial {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detalle-historial h3 {
+    color: var(--primary-dark);
+
+    font-size: 1.02rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+.detalle-historial h3 i {
+    margin-right: 9px;
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   38. CONTENEDOR DE TABLAS
+========================================================= */
+
+.tabla-detalle-scroll {
+    width: 100%;
+    max-height: 460px;
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+
+/* =========================================================
+   39. TABLAS
+========================================================= */
+
+.detalle-table {
+    width: 100%;
+    min-width: 620px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    font-size: 0.82rem;
+    color: var(--text);
+}
+
+#modalDetalleGrafico .detalle-table {
+    min-width: 1050px;
+}
+
+#modalDesglose #tablaResumenDesglose {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   40. ENCABEZADOS DE TABLAS
+========================================================= */
+
+.detalle-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.detalle-table th {
+    padding: 15px 13px;
+
+    color: #FFFFFF;
+
+    background:
+        linear-gradient(
+            135deg,
+            #556B2F,
+            #3D4D1F
+        );
+
+    font-size: 0.73rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    line-height: 1.4;
+
+    text-align: center;
+    white-space: nowrap;
+
+    border-bottom:
+        2px solid var(--primary-dark);
+}
+
+
+/* =========================================================
+   41. CUERPO DE TABLAS
+========================================================= */
+
+.detalle-table td {
+    padding: 14px 12px;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.5;
+
+    border-bottom:
+        1px solid var(--border-soft);
+}
+
+.detalle-table tbody tr {
+    transition: 0.18s ease;
+}
+
+.detalle-table tbody tr:nth-child(even) {
+    background: #F8FAF5;
+}
+
+.detalle-table tbody tr:hover {
+    background: #EEF3E7;
+}
+
+.detalle-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   42. COLORES DE REGISTROS
+========================================================= */
+
+.texto-rojo {
+    color: var(--danger) !important;
+}
+
+.texto-azul {
+    color: var(--info) !important;
+}
+
+.texto-verde {
+    color: var(--success) !important;
+}
+
+.sin-datos {
+    padding: 35px !important;
+
+    color: var(--text-soft);
+    font-size: 0.86rem;
+    font-weight: 700;
+
+    text-align: center !important;
+}
+
+
+/* =========================================================
+   43. REPORTE CIRCULAR: NOMBRES Y FECHAS
+========================================================= */
+
+#modalDetalleGrafico .detalle-table td:nth-child(2) {
+    min-width: 220px;
+
+    color: var(--primary-dark);
+    text-align: left;
+    font-weight: 800;
+}
+
+#modalDetalleGrafico .detalle-table td:nth-child(4),
+#modalDetalleGrafico .detalle-table td:nth-child(5) {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   44. HISTORIAL DEL REPORTE INDIVIDUAL
+========================================================= */
+
+#modalDetalleLocador .detalle-table td:nth-child(2) {
+    font-weight: 800;
+}
+
+#modalDetalleLocador .detalle-table td:first-child {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   45. BOTÓN VER
+========================================================= */
+
+.btn-reporte-individual {
+    min-width: 85px;
+    padding: 9px 15px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    color: #FFFFFF;
+
+    background:
+        linear-gradient(
+            135deg,
+            #556B2F,
+            #3D4D1F
+        );
+
+    border: none;
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+
+    box-shadow:
+        0 6px 14px rgba(85, 107, 47, 0.18);
+
+    transition: var(--transition);
+}
+
+.btn-reporte-individual:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 9px 20px rgba(85, 107, 47, 0.30);
+}
+
+.btn-reporte-individual:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   46. LOADING
+========================================================= */
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(248, 250, 245, 0.94);
+    backdrop-filter: blur(8px);
+}
+
+.loading-content {
+    width: min(420px, 90vw);
+    padding: 40px 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    box-shadow: var(--shadow-medium);
+}
+
+.loading-spinner {
+    width: 65px;
+    height: 65px;
+
+    margin-bottom: 25px;
+
+    border: 5px solid var(--bg-soft);
+    border-top: 5px solid var(--primary);
+    border-radius: 50%;
+
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-content h3 {
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.loading-content p {
+    margin-top: 10px;
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   47. NOTIFICACIÓN DE CARGA
+========================================================= */
+
+.estado-carga {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+    z-index: 150000;
+
+    max-width: calc(100vw - 30px);
+    padding: 13px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--primary-dark);
+    background: #FFFFFF;
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    box-shadow: var(--shadow-medium);
+
+    font-size: 0.84rem;
+    font-weight: 900;
+    text-align: center;
+}
+
+
+/* =========================================================
+   48. ERROR
+========================================================= */
+
+.mensaje-error {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+
+    z-index: 150000;
+
+    width: min(
+        540px,
+        calc(100vw - 40px)
+    );
+
+    background: #FFFFFF;
+
+    border: 1px solid #FECACA;
+    border-left: 5px solid var(--danger);
+    border-radius: 18px;
+
+    box-shadow: var(--shadow-strong);
+    animation: modalEntrada 0.25s ease;
+}
+
+.mensaje-error__contenido {
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.mensaje-error__contenido > i {
+    color: var(--danger);
+    font-size: 1.5rem;
+}
+
+.mensaje-error__contenido > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.mensaje-error h3 {
+    color: var(--danger-dark);
+    font-size: 0.86rem;
+    font-weight: 900;
+}
+
+.mensaje-error p {
+    margin-top: 6px;
+
+    color: var(--text-soft);
+    font-size: 0.79rem;
+    font-weight: 700;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+#btnReintentarCarga {
+    padding: 10px 14px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #FFFFFF;
+    background: var(--danger);
+
+    border: none;
+    border-radius: 11px;
+
+    font-size: 0.75rem;
+    font-weight: 900;
+
+    transition: var(--transition);
+}
+
+#btnReintentarCarga:hover {
+    background: var(--danger-dark);
+}
+
+
+/* =========================================================
+   49. ACCESIBILIDAD
+========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+canvas:focus-visible {
+    outline: 3px solid rgba(200, 212, 0, 0.85);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   50. PANTALLAS GRANDES
+========================================================= */
+
+@media (min-width: 1600px) {
+
+    .dashboard-container {
+        padding: 30px 35px;
+    }
+
+    .kpi-card {
+        min-height: 145px;
+        padding: 25px 30px;
+    }
+
+    .chart-container--dias,
+    .chart-container--sector {
+        height: 460px;
+        min-height: 460px;
+    }
+
+    .chart-container--desglose {
+        height: 410px;
+        min-height: 410px;
+    }
+
+}
+
+
+/* =========================================================
+   51. PANTALLAS MEDIANAS
+========================================================= */
+
+@media (max-width: 1300px) {
+
+    .top-header {
+        padding: 13px 18px;
+    }
+
+    .top-header__left {
+        min-width: 230px;
+    }
+
+    .titulo-header h1 {
+        font-size: 1.17rem;
+    }
+
+    .filtro-fecha--nombre {
+        width: 235px;
+        min-width: 235px;
+    }
+
+    .filtro-check {
+        width: 165px;
+        min-width: 165px;
+    }
+
+    .kpi-card {
+        padding: 18px;
+        gap: 15px;
+    }
+
+    .kpi-icon {
+        width: 56px;
+        min-width: 56px;
+        height: 56px;
+        font-size: 1.35rem;
+    }
+
+    .kpi-content h3 {
+        font-size: 0.72rem;
+    }
+
+    .kpi-valores-combinados {
+        gap: 10px;
+    }
+
+    .kpi-valores-combinados .cantidad {
+        font-size: 1.85rem;
+    }
+
+    .kpi-valores-combinados .porcentaje {
+        font-size: 1.55rem;
+    }
+
+}
+
+
+/* =========================================================
+   52. TABLETS
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .top-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .top-header__left {
+        min-width: 0;
+    }
+
+    .top-header__right {
+        justify-content: flex-start;
+    }
+
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .kpi-grid--locadores {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-faltas-dia,
+    .panel-faltas-sector,
+    .panel-distribucion,
+    .panel-ranking {
+        min-height: 0;
+    }
+
+    .detalle-personal-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   53. CELULARES
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .top-header {
+        position: relative;
+        padding: 15px;
+    }
+
+    .titulo-header h1 {
+        font-size: 1.05rem;
+    }
+
+    .titulo-header p {
+        font-size: 0.70rem;
+    }
+
+    .btn-regresar {
+        width: 42px;
+        min-width: 42px;
+        height: 42px;
+    }
+
+    .filtro-fecha--nombre {
+        width: 225px;
+        min-width: 225px;
+    }
+
+    .filtro-check {
+        width: 155px;
+        min-width: 155px;
+    }
+
+    .dashboard-container {
+        padding: 15px;
+        gap: 17px;
+    }
+
+    /* KPI */
+
+    .kpi-grid--locadores {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .kpi-card {
+        min-height: 110px;
+        padding: 18px;
+        gap: 16px;
+    }
+
+    .kpi-icon {
+        width: 52px;
+        min-width: 52px;
+        height: 52px;
+        font-size: 1.3rem;
+    }
+
+    .kpi-content h3 {
+        font-size: 0.72rem;
+    }
+
+    .kpi-content h2 {
+        font-size: 1.85rem;
+    }
+
+    .kpi-valores-combinados .cantidad {
+        font-size: 1.9rem;
+    }
+
+    .kpi-valores-combinados .porcentaje {
+        font-size: 1.55rem;
+    }
+
+    /* GRÁFICOS */
+
+    .charts-grid {
+        gap: 17px;
+    }
+
+    .panel {
+        border-radius: 17px;
+    }
+
+    .panel-header {
+        min-height: 0;
+        padding: 17px;
+
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .panel-header h2 {
+        font-size: 0.97rem;
+    }
+
+    .panel-subtitle {
+        font-size: 0.75rem;
+    }
+
+    .mini-filtro {
+        align-self: flex-start;
+    }
+
+    .chart-container--dias,
+    .chart-container--sector {
+        height: 350px;
+        min-height: 350px;
+        padding: 12px;
+    }
+
+    .chart-container--distribucion {
+        height: 350px;
+        min-height: 350px;
+        padding: 15px;
+    }
+
+    .chart-container--ranking,
+    #contenedorRanking {
+        height: 490px;
+        max-height: 490px;
+        padding: 10px;
+    }
+
+    .grafico-leyenda {
+        gap: 15px;
+        padding: 12px;
+    }
+
+    .leyenda-item {
+        font-size: 0.70rem;
+    }
+
+    /* VENTANAS */
+
+    .modal-detalle {
+        padding: 9px;
+    }
+
+    .modal-detalle__box,
+    #modalDesglose .modal-detalle__box {
+        width: 100%;
+        max-height: 95vh;
+        border-radius: 17px;
+    }
+
+    .modal-detalle__header {
+        padding: 17px;
+    }
+
+    .modal-detalle__header h2 {
+        font-size: 1rem;
+    }
+
+    .modal-detalle__body {
+        padding: 15px;
+        gap: 17px;
+    }
+
+    /* NUEVO GRÁFICO DE DESGLOSE */
+
+    .chart-container--desglose {
+        height: 310px;
+        min-height: 310px;
+        padding: 10px;
+    }
+
+    /* TARJETAS DEL REPORTE */
+
+    .detalle-personal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detalle-resumen-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #modalDetalleGrafico .detalle-resumen-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detalle-resumen {
+        min-height: 90px;
+    }
+
+    /* TABLAS */
+
+    #modalDesglose .detalle-table {
+        min-width: 470px;
+    }
+
+    #modalDesglose #panelPersonasDesglose .detalle-table {
+        min-width: 850px;
+    }
+
+    .detalle-table th,
+    .detalle-table td {
+        padding: 11px 9px;
+        font-size: 0.74rem;
+    }
+
+    .btn-reporte-individual {
+        padding: 8px 12px;
+        min-width: 72px;
+    }
+
+    /* ERRORES */
+
+    .mensaje-error {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        width: auto;
+    }
+
+    .mensaje-error__contenido {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+/* =========================================================
+   54. MOVIMIENTO REDUCIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+}
+
+
+/* =========================================================
+   FIN DEL ARCHIVO LOCADORES.CSS
+========================================================= */

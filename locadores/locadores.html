@@ -1,0 +1,709 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faltas Locadores</title>
+
+    <!-- ICONOS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- ESTILOS INSTITUCIONALES -->
+    <link rel="stylesheet" href="locadores.css">
+
+    <!-- GRÁFICOS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"
+        defer
+    ></script>
+
+    <!-- ETIQUETAS PERMANENTES -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"
+        defer
+    ></script>
+</head>
+
+<body>
+
+    <!-- ==========================================
+         ENCABEZADO
+    =========================================== -->
+
+    <header class="top-header">
+
+        <div class="top-header__left">
+
+            <a href="../index.html" class="btn-regresar"
+               title="Regresar">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Regresar</span>
+            </a>
+
+            <div class="titulo-header">
+                <h1>FALTAS LOCADORES</h1>
+                <p>Control y monitoreo de inasistencias</p>
+            </div>
+
+        </div>
+
+        <div class="top-header__right top-header__right--simple">
+
+            <!-- NOMBRE -->
+            <div class="filtro-fecha filtro-fecha--nombre">
+                <i class="fa-solid fa-user"></i>
+
+                <input
+                    type="search"
+                    id="filtroNombreGeneral"
+                    list="listaNombresPersonal"
+                    placeholder="NOMBRE DEL LOCADOR"
+                    autocomplete="off"
+                    aria-label="Buscar por nombre"
+                >
+
+                <datalist id="listaNombresPersonal"></datalist>
+            </div>
+
+            <!-- MESES DEL EXCEL -->
+            <details class="filtro-check" id="boxFiltroMes">
+                <summary>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span id="textoFiltroMes">MES</span>
+                </summary>
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroMes"
+                ></div>
+            </details>
+
+            <!-- SECTORES DEL EXCEL -->
+            <details class="filtro-check" id="boxFiltroSector">
+                <summary>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span id="textoFiltroSector">SECTOR</span>
+                </summary>
+                <div
+                    class="filtro-check__panel"
+                    id="opcionesFiltroSector"
+                ></div>
+            </details>
+
+            <!-- LIMPIAR -->
+            <button
+                type="button"
+                class="btn-filtro btn-filtro--reset"
+                id="btnLimpiarTodo"
+            >
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+                Limpiar
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==========================================
+         DASHBOARD
+    =========================================== -->
+
+    <main class="dashboard-container">
+
+        <!-- INDICADORES -->
+
+        <section class="kpi-grid kpi-grid--locadores">
+
+            <!-- TOTAL PERSONAL -->
+            <article class="kpi-card">
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="kpi-content">
+                    <h3>TOTAL PERSONAL</h3>
+                    <h2 id="kpiTotalLocadores">0</h2>
+                </div>
+            </article>
+
+            <!-- PERSONAL CON FALTAS -->
+            <article class="kpi-card kpi-card--danger">
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-user-xmark"></i>
+                </div>
+
+                <div class="kpi-content">
+                    <h3>PERSONAL CON FALTAS</h3>
+
+                    <div class="kpi-valores-combinados">
+                        <span class="cantidad"
+                              id="kpiLocadoresConFaltas">0</span>
+
+                        <span class="separador">|</span>
+
+                        <span class="porcentaje"
+                              id="kpiPorcentajeFaltas">0%</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PERSONAL CON DESCANSO MÉDICO -->
+            <article class="kpi-card kpi-card--info">
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-briefcase-medical"></i>
+                </div>
+
+                <div class="kpi-content">
+                    <h3>PERSONAL CON DESCANSO MÉDICO</h3>
+
+                    <div class="kpi-valores-combinados">
+                        <span class="cantidad"
+                              id="kpiDescansosMedicos">0</span>
+
+                        <span class="separador">|</span>
+
+                        <span class="porcentaje"
+                              id="kpiPorcentajeDescansos">0%</span>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+
+        <!-- ======================================
+             PRIMERA FILA DE GRÁFICOS
+        ======================================= -->
+
+        <section class="charts-grid">
+
+            <!-- FALTAS POR DÍA -->
+            <article class="panel panel-faltas-dia">
+
+                <div class="panel-header panel-header--between">
+                    <div>
+                        <h2>FALTAS POR DÍA</h2>
+                        <p class="panel-subtitle">
+                            Cantidad de faltas por día del mes
+                        </p>
+                    </div>
+
+                    <div class="mini-filtro">
+                        <span>MES</span>
+                        <strong id="textoPeriodoGrafico">-</strong>
+                    </div>
+                </div>
+
+                <div class="chart-container chart-container--dias">
+                    <canvas
+                        id="graficoFaltasPorDia"
+                        class="grafico-interactivo"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Seleccionar día para ver faltas por sector"
+                    ></canvas>
+                </div>
+
+            </article>
+
+
+            <!-- FALTAS POR SECTOR -->
+            <article class="panel panel-faltas-sector">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>FALTAS POR SECTOR</h2>
+                        <p class="panel-subtitle">
+                            Distribución de faltas según sector
+                        </p>
+                    </div>
+                </div>
+
+                <div class="chart-container chart-container--sector">
+                    <canvas
+                        id="graficoFaltasPorSector"
+                        class="grafico-interactivo"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Seleccionar sector para ver faltas por día"
+                    ></canvas>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- ======================================
+             SEGUNDA FILA DE GRÁFICOS
+        ======================================= -->
+
+        <section class="charts-grid">
+
+            <!-- FALTAS Y DESCANSOS MÉDICOS -->
+            <article class="panel panel-distribucion">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>FALTAS Y DESCANSOS MÉDICOS</h2>
+                        <p class="panel-subtitle">
+                            Distribución de incidencias registradas
+                        </p>
+                    </div>
+                </div>
+
+                <div class="chart-container chart-container--distribucion">
+                    <div class="distribucion-canvas-wrap">
+
+                        <canvas
+                            id="graficoDistribucionIncidencias"
+                            class="grafico-interactivo"
+                            role="button"
+                            tabindex="0"
+                            aria-label="Consultar faltas y descansos médicos"
+                        ></canvas>
+
+                    </div>
+                </div>
+
+                <div class="grafico-leyenda">
+
+                    <div class="leyenda-item">
+                        <span class="leyenda-color leyenda-color--faltas"></span>
+                        <span>F - FALTAS</span>
+                    </div>
+
+                    <div class="leyenda-item">
+                        <span class="leyenda-color leyenda-color--descansos"></span>
+                        <span>D - DESCANSOS MÉDICOS</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- RANKING DE FALTAS -->
+            <article class="panel panel-ranking">
+
+                <div class="panel-header panel-header--between">
+                    <div>
+                        <h2>RANKING DE FALTAS</h2>
+                        <p class="panel-subtitle">
+                            Personal con mayor cantidad de faltas
+                        </p>
+                    </div>
+
+                    <div class="mini-filtro">
+                        <span>CON FALTAS</span>
+                        <strong id="totalRankingLocadores">0</strong>
+                    </div>
+                </div>
+
+                <div
+                    class="chart-container chart-container--ranking"
+                    id="contenedorRanking"
+                >
+                    <div
+                        class="ranking-canvas-wrap"
+                        id="rankingCanvasWrap"
+                    >
+                        <canvas
+                            id="graficoRankingLocadores"
+                            class="grafico-interactivo"
+                            role="button"
+                            tabindex="0"
+                            aria-label="Seleccionar locador para ver su reporte"
+                        ></canvas>
+                    </div>
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         MODAL DE DESGLOSE
+         
+         FALTAS POR DÍA:
+           Gráfico de faltas por sector
+
+         FALTAS POR SECTOR:
+           Gráfico de faltas por día
+    =========================================== -->
+
+    <div
+        class="modal-detalle"
+        id="modalDesglose"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloModalDesglose"
+        hidden
+    >
+
+        <div class="modal-detalle__overlay"></div>
+
+        <div class="modal-detalle__box">
+
+            <div class="modal-detalle__header">
+                <div>
+                    <h2 id="tituloModalDesglose">
+                        DESGLOSE DE FALTAS
+                    </h2>
+
+                    <p id="subtituloModalDesglose">
+                        Detalle de incidencias
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-detalle__close"
+                    id="btnCerrarModalDesglose"
+                    aria-label="Cerrar desglose"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-detalle__body">
+
+                <!-- GRÁFICO DE DESGLOSE -->
+                <section class="detalle-historial">
+                    <h3 id="tituloGraficoDesglose">
+                        FALTAS POR SECTOR
+                    </h3>
+
+                    <div class="chart-container chart-container--desglose">
+                        <canvas
+                            id="graficoDesglose"
+                            class="grafico-interactivo"
+                            role="img"
+                            aria-label="Gráfico del desglose de faltas"
+                        ></canvas>
+                    </div>
+                </section>
+
+                <!-- RESUMEN CON BOTÓN VER -->
+                <section class="detalle-historial">
+                    <h3 id="tituloTablaDesglose">
+                        RESUMEN DE FALTAS
+                    </h3>
+
+                    <div class="tabla-detalle-scroll">
+                        <table class="detalle-table">
+                            <thead>
+                                <tr id="encabezadosTablaDesglose">
+                                    <th>SECTOR</th>
+                                    <th>FALTAS</th>
+                                    <th>REPORTE</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaResumenDesglose"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PERSONAS QUE FALTARON -->
+                <section
+                    class="detalle-historial"
+                    id="panelPersonasDesglose"
+                    hidden
+                >
+                    <h3 id="tituloPersonasDesglose">
+                        PERSONAL QUE REGISTRÓ FALTAS
+                    </h3>
+
+                    <div class="tabla-detalle-scroll">
+                        <table class="detalle-table">
+                            <thead>
+                                <tr>
+                                    <th>N.°</th>
+                                    <th>APELLIDOS Y NOMBRES</th>
+                                    <th>SECTOR</th>
+                                    <th>FECHA</th>
+                                    <th>DÍA</th>
+                                    <th>MARCADOR</th>
+                                    <th>REPORTE</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaPersonasDesglose"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL FALTAS Y DESCANSOS MÉDICOS
+         SE CONSERVA EL FUNCIONAMIENTO ACTUAL
+    =========================================== -->
+
+    <div
+        class="modal-detalle"
+        id="modalDetalleGrafico"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloModalGrafico"
+        hidden
+    >
+
+        <div class="modal-detalle__overlay"></div>
+
+        <div class="modal-detalle__box">
+
+            <div class="modal-detalle__header">
+                <div>
+                    <h2 id="tituloModalGrafico">
+                        REPORTE DE INCIDENCIAS
+                    </h2>
+
+                    <p id="subtituloModalGrafico">
+                        Detalle de registros
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-detalle__close"
+                    id="btnCerrarModalGrafico"
+                    aria-label="Cerrar reporte"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-detalle__body">
+
+                <div class="detalle-resumen-grid">
+                    <div class="detalle-resumen detalle-resumen--total">
+                        <span>TOTAL DE REGISTROS</span>
+                        <strong id="totalModalGrafico">0</strong>
+                    </div>
+                </div>
+
+                <div class="detalle-historial">
+                    <h3>
+                        <i class="fa-solid fa-list"></i>
+                        DETALLE DE INCIDENCIAS
+                    </h3>
+
+                    <div class="tabla-detalle-scroll">
+                        <table class="detalle-table">
+                            <thead>
+                                <tr>
+                                    <th>N.°</th>
+                                    <th>APELLIDOS Y NOMBRES</th>
+                                    <th>SECTOR</th>
+                                    <th>FECHA</th>
+                                    <th>DÍA</th>
+                                    <th>MARCADOR</th>
+                                    <th>INCIDENCIA</th>
+                                    <th>REPORTE</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaDetalleGrafico"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         REPORTE INDIVIDUAL
+         SIN DOCUMENTO NI MODALIDAD
+         CONSERVA DÍAS DE LA SEMANA
+    =========================================== -->
+
+    <div
+        class="modal-detalle"
+        id="modalDetalleLocador"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloModalLocador"
+        hidden
+    >
+
+        <div class="modal-detalle__overlay"></div>
+
+        <div class="modal-detalle__box">
+
+            <div class="modal-detalle__header">
+                <div>
+                    <h2 id="tituloModalLocador">
+                        REPORTE INDIVIDUAL
+                    </h2>
+
+                    <p id="subtituloModalLocador">
+                        Historial de incidencias
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-detalle__close"
+                    id="btnCerrarModalLocador"
+                    aria-label="Cerrar reporte individual"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-detalle__body">
+
+                <!-- INFORMACIÓN PERSONAL -->
+                <div class="detalle-personal-grid">
+
+                    <div class="detalle-campo">
+                        <span>APELLIDOS Y NOMBRES</span>
+                        <strong id="detalleNombre">-</strong>
+                    </div>
+
+                    <div class="detalle-campo">
+                        <span>SECTOR</span>
+                        <strong id="detalleSector">-</strong>
+                    </div>
+
+                    <div class="detalle-campo">
+                        <span>FUNCIÓN</span>
+                        <strong id="detalleFuncion">-</strong>
+                    </div>
+
+                </div>
+
+                <!-- INDICADORES INDIVIDUALES -->
+                <div class="detalle-resumen-grid">
+
+                    <div class="detalle-resumen detalle-resumen--danger">
+                        <span>TOTAL DE FALTAS</span>
+                        <strong id="detalleTotalFaltas">0</strong>
+                    </div>
+
+                    <div class="detalle-resumen detalle-resumen--info">
+                        <span>DESCANSOS MÉDICOS</span>
+                        <strong id="detalleTotalDescansos">0</strong>
+                    </div>
+
+                    <div class="detalle-resumen detalle-resumen--total">
+                        <span>TOTAL DE INCIDENCIAS</span>
+                        <strong id="detalleTotalIncidencias">0</strong>
+                    </div>
+
+                </div>
+
+                <!-- HISTORIAL INDIVIDUAL -->
+                <div class="detalle-historial">
+
+                    <h3>
+                        <i class="fa-solid fa-calendar-days"></i>
+                        HISTORIAL DE INCIDENCIAS
+                    </h3>
+
+                    <div class="tabla-detalle-scroll">
+                        <table class="detalle-table">
+                            <thead>
+                                <tr>
+                                    <th>FECHA</th>
+                                    <th>DÍA DE LA SEMANA</th>
+                                    <th>MARCADOR</th>
+                                    <th>TIPO DE INCIDENCIA</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaHistorialLocador">
+                                <tr>
+                                    <td colspan="4" class="sin-datos">
+                                        Sin incidencias registradas
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         ELEMENTOS AUXILIARES
+    =========================================== -->
+
+    <div
+        id="panelFiltroFlotante"
+        class="panel-filtro-flotante"
+        hidden
+    ></div>
+
+    <div
+        id="loadingOverlay"
+        class="loading-overlay"
+        role="status"
+        aria-live="polite"
+        hidden
+    >
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>CARGANDO INFORMACIÓN</h3>
+            <p>Consultando registros desde Firebase Storage...</p>
+        </div>
+    </div>
+
+    <div
+        id="estadoCarga"
+        class="estado-carga"
+        role="status"
+        aria-live="polite"
+        hidden
+    ></div>
+
+    <div
+        id="mensajeError"
+        class="mensaje-error"
+        role="alert"
+        hidden
+    >
+        <div class="mensaje-error__contenido">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <div>
+                <h3>ERROR AL CARGAR INFORMACIÓN</h3>
+                <p id="textoMensajeError">
+                    No se pudo acceder a los registros.
+                </p>
+            </div>
+
+            <button type="button" id="btnReintentarCarga">
+                <i class="fa-solid fa-rotate-right"></i>
+                Reintentar
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script type="module" src="locadores.js"></script>
+
+</body>
+</html>
