@@ -130,8 +130,12 @@ export const RUTAS_STORAGE = {
         "RENDIMIENTO PERSONAL/ROL DE SERVICIO",
 
     restriccionesMedicas:
-
         "RESTRICCIONES MEDICAS/restricciones.xlsx",
+
+    // FALTAS DE LOCADORES
+    faltasLocadores:
+        "RENDIMIENTO PERSONAL/locadores/locadores faltas.xlsx",
+
 };
 
 
